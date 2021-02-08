@@ -102,6 +102,9 @@
     <ClCompile Include="features\Autowall.cpp">
       <Filter>Features</Filter>
     </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Interfaces.hpp">
@@ -256,6 +259,9 @@
     </ClInclude>
     <ClInclude Include="features\Resolver.hpp">
       <Filter>Features</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

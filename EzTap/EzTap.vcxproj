@@ -157,6 +157,7 @@
     <ClCompile Include="Gui.cpp" />
     <ClCompile Include="Hooks.cpp" />
     <ClCompile Include="Render.cpp" />
+    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="valve_sdk\Classes\Color.cpp" />
     <ClCompile Include="valve_sdk\Classes\C_BaseEntity.cpp" />
     <ClCompile Include="valve_sdk\Interfaces\IBaseClientDLL.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="Memory.hpp" />
     <ClInclude Include="MinHook.h" />
     <ClInclude Include="Render.hpp" />
+    <ClInclude Include="Utils.hpp" />
     <ClInclude Include="valve_sdk\Classes\CGlobalVars.hpp" />
     <ClInclude Include="valve_sdk\Classes\CInput.hpp" />
     <ClInclude Include="valve_sdk\Classes\Color.hpp" />

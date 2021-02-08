@@ -83,6 +83,9 @@ void Aimbot::CreateMove(CUserCmd* pCmd)
     if (!features.Aimbot_AutoFire)
         return;
 
+    if (!LocalPlayer->velocity().isNull())
+        return;
+
     if (activeWeapon->nextPrimaryAttack() > interfaces.GlobalVars->curtime && features.Aimbot_AutoFire)
     {
         pCmd->buttons &= ~IN_ATTACK;
