@@ -57,3 +57,4 @@ public:
 
 inline C_BaseEntity* LocalPlayer;
 inline ImDrawList* drawList;
+inline ImFont* IconFont;

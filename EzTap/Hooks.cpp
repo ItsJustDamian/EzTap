@@ -49,6 +49,7 @@ static HRESULT __stdcall hkEndScene(IDirect3DDevice9* pDevice)
 
         ImGuiIO& io = ImGui::GetIO();
         ImFont * f = io.Fonts->AddFontFromMemoryTTF(robotoFont, 16.f, 16.f);
+        IconFont = io.Fonts->AddFontFromMemoryTTF(badcache::fileBytes, 46.f, 46.f);
     }
 
     if (menuOpen && interfaces.Engine->isIngame() && oLockCursor == nullptr)

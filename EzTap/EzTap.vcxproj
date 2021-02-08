@@ -72,11 +72,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(DXSDK_DIR)include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Damian\source\repos\EzTap\Minhook;$(DXSDK_DIR)LIB\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>D:\EzTap\Minhook;$(DXSDK_DIR)LIB\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(DXSDK_DIR)include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Damian\source\repos\EzTap\Minhook;$(DXSDK_DIR)LIB\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>D:\EzTap\Minhook;$(DXSDK_DIR)LIB\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -183,6 +183,7 @@
     <ClInclude Include="Globals.hpp" />
     <ClInclude Include="Gui.hpp" />
     <ClInclude Include="Hooks.hpp" />
+    <ClInclude Include="IconFont.hpp" />
     <ClInclude Include="Interfaces.hpp" />
     <ClInclude Include="Memory.hpp" />
     <ClInclude Include="MinHook.h" />
