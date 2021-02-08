@@ -41,3 +41,8 @@ void Misc::NoFlash(bool enabled)
 {
 	LocalPlayer->SetflashAlpha((enabled ? 0.f : 255.f));
 }
+
+void Misc::ClanTag()
+{
+	Utils::SetClantag("KANKER");
+}

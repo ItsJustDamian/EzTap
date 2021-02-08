@@ -47,6 +47,7 @@ public:
 	FeatureVariable(ForceCrosshair, bool, false);
 	FeatureVariable(RankReveal, bool, false);
 	FeatureVariable(NoFlash, bool, false);
+	FeatureVariable(Clantag, bool, false);
 
 	FeatureVariable(AutowallMinDmg, int, 10);
 	FeatureVariable(Aimbot_FOV, float, 20);

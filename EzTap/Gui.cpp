@@ -282,7 +282,14 @@ void Gui::Render()
 			if (iTab == 0)
 			{
 				static int kanker = 0;
-				ImGui::SliderInt("Kanker", &kanker, 0, 100);
+				ImGui::FancyCheckbox("Chams", &features.Clantag);
+				if (features.Clantag)
+				{
+					Misc::ClanTag();
+				}
+				else {
+					Utils::SetClantag("");
+				}
 			}
 		}ImGui::EndChild();
 
