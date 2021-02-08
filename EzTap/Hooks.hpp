@@ -15,6 +15,7 @@
 #include "features/ESP.hpp"
 #include "features/Chams.hpp"
 #include "features/Misc.hpp"
+#include "features/Aimbot.hpp"
 
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")

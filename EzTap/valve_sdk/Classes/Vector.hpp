@@ -44,6 +44,12 @@ public:
 			y += 360.0f;
 	}
 
+	Vector Normalized() {
+		Vector tmp = *this;
+		tmp.Normalize();
+		return tmp;
+	}
+
 	Vector operator-(Vector angle)
 	{
 		return Vector(x - angle.x, y - angle.y, z - angle.z);

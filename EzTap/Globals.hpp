@@ -37,6 +37,21 @@ public:
 	FeatureVariable(NoHands, bool, false);
 	FeatureVariable(Bunnyhop, bool, false);
 	FeatureVariable(Chams, bool, false);
+	FeatureVariable(Chams_Arms, bool, false);
+	FeatureVariable(Chams_Arms_Wireframe, bool, false);
+	FeatureVariable(Aimbot, bool, false);
+	FeatureVariable(Autowall, bool, false);
+	FeatureVariable(Aimbot_Silent, bool, false);
+	FeatureVariable(Aimbot_AutoFire, bool, false);
+	FeatureVariable(Aimbot_AutoScope, bool, false);
+	FeatureVariable(ForceCrosshair, bool, false);
+	FeatureVariable(RankReveal, bool, false);
+	FeatureVariable(NoFlash, bool, false);
+
+	FeatureVariable(AutowallMinDmg, int, 10);
+	FeatureVariable(Aimbot_FOV, float, 20);
+	FeatureVariable(Aimbot_Bone, int, 8);
+	FeatureVariable(FOV, int, 90);
 
 } inline features;
 

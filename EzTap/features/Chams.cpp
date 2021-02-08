@@ -115,5 +115,20 @@ void Chams::OnDrawModelExecute(IMatRenderContext* ctx, const DrawModelState_t& s
 			material->SetMaterialVarFlag(MATERIAL_VAR_NO_DRAW, true);
 			interfaces.ModelRender->ForcedMaterialOverride(material);
 		}
+		else if(!features.NoHands && features.Chams_Arms) {
+			OverrideMaterial(
+				true,
+				true,
+				features.Chams_Arms_Wireframe,
+				false,
+				Color(204, 27, 207));
+			oFunc(interfaces.ModelRender, 0, ctx, state, pInfo, pCustomBoneToWorld);
+			OverrideMaterial(
+				false,
+				true,
+				features.Chams_Arms_Wireframe,
+				false,
+				Color(204, 27, 207));
+		}
 	}
 }

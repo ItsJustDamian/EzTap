@@ -93,6 +93,15 @@
     <ClCompile Include="features\Misc.cpp">
       <Filter>Features</Filter>
     </ClCompile>
+    <ClCompile Include="features\Autowall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="features\Aimbot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="features\Resolver.cpp">
+      <Filter>Features</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Interfaces.hpp">
@@ -237,6 +246,15 @@
       <Filter>valve_sdk\classes</Filter>
     </ClInclude>
     <ClInclude Include="features\Misc.hpp">
+      <Filter>Features</Filter>
+    </ClInclude>
+    <ClInclude Include="features\Aimbot.hpp">
+      <Filter>Features</Filter>
+    </ClInclude>
+    <ClInclude Include="features\Autowall.hpp">
+      <Filter>Features</Filter>
+    </ClInclude>
+    <ClInclude Include="features\Resolver.hpp">
       <Filter>Features</Filter>
     </ClInclude>
   </ItemGroup>

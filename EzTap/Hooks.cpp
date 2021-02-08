@@ -102,9 +102,9 @@ static void __stdcall hkOverrideView(CViewSetup* setup)
         return oOverrideView(setup);
 
     if (LocalPlayer->getActiveWeapon()->isWeaponSniper() && !LocalPlayer->isScoped())
-        setup->fov = 120;
+        setup->fov = features.FOV;
     else if (!LocalPlayer->getActiveWeapon()->isWeaponSniper())
-        setup->fov = 120;
+        setup->fov = features.FOV;
 
     return oOverrideView(setup);
 }
@@ -123,6 +123,12 @@ static bool __stdcall hkCreateMove(float frametime, CUserCmd* pCmd)
     if (features.Bunnyhop)
         Misc::Bunnyhop(pCmd);
 
+    if (features.Aimbot)
+        Aimbot::CreateMove(pCmd);
+
+    if (features.RankReveal)
+        Misc::RankReveal();
+
     return false; // Send to server, but not update on client
 }
 
@@ -139,6 +145,9 @@ static void __stdcall hkFrameStageNotify(ClientFrameStage_t curStage)
 
     if (!LocalPlayer || interfaces.Engine->isTakingScreenshot())
         return oFrameStageNotify(curStage);
+
+    Misc::ForceCrosshair();
+    Misc::NoFlash(features.NoFlash);
 
     return oFrameStageNotify(curStage);
 }

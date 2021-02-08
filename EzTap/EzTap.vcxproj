@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{cf9bb01c-b93e-47b3-b64d-45bebc95d749}</ProjectGuid>
     <RootNamespace>EzTap</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>EzTap</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -42,13 +42,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -148,9 +148,12 @@
     <ClCompile Include="..\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="features\Aimbot.cpp" />
+    <ClCompile Include="features\Autowall.cpp" />
     <ClCompile Include="features\Chams.cpp" />
     <ClCompile Include="features\ESP.cpp" />
     <ClCompile Include="features\Misc.cpp" />
+    <ClCompile Include="features\Resolver.cpp" />
     <ClCompile Include="Gui.cpp" />
     <ClCompile Include="Hooks.cpp" />
     <ClCompile Include="Render.cpp" />
@@ -169,9 +172,12 @@
     <ClInclude Include="..\ImGui\imstb_textedit.h" />
     <ClInclude Include="..\ImGui\imstb_truetype.h" />
     <ClInclude Include="Console.hpp" />
+    <ClInclude Include="features\Aimbot.hpp" />
+    <ClInclude Include="features\Autowall.hpp" />
     <ClInclude Include="features\Chams.hpp" />
     <ClInclude Include="features\ESP.hpp" />
     <ClInclude Include="features\Misc.hpp" />
+    <ClInclude Include="features\Resolver.hpp" />
     <ClInclude Include="Font.hpp" />
     <ClInclude Include="Globals.hpp" />
     <ClInclude Include="Gui.hpp" />
