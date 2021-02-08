@@ -14,18 +14,12 @@ C_BaseEntity* Aimbot::GetEntityNearCrosshair(Vector viewAngles, float FOV)
 
         bool bHittable = false;
 
-        /*for (auto bone : { 8, 4, 3, 7, 6, 5 })
-        {
-            if (bHittable)
-                break;*/
-
         Vector bonePos = cEntity->getBonePosition(features.Aimbot_Bone);
 
         if (features.Autowall)
             bHittable = Autowall::canScan(cEntity, bonePos, LocalPlayer->getActiveWeapon()->getWeaponData(), features.AutowallMinDmg, true);
         else 
             bHittable = cEntity->isVisible(bonePos);
-        /*}*/
 
         if (!bHittable)
             continue;
@@ -79,10 +73,12 @@ void Aimbot::CreateMove(CUserCmd* pCmd)
     if (aimAngles.IsNan() || aimAngles.isNull())
         return;
 
+    Vector normalizedAngles = aimAngles.Normalized();
+
     if (features.Aimbot_Silent)
-        pCmd->viewangles = aimAngles.Normalized();
+        pCmd->viewangles = normalizedAngles;
     else
-        interfaces.Engine->setViewAngles(&aimAngles.Normalized());
+        interfaces.Engine->setViewAngles(&normalizedAngles);
 
     if (!features.Aimbot_AutoFire)
         return;

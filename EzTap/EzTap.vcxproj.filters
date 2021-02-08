@@ -93,13 +93,13 @@
     <ClCompile Include="features\Misc.cpp">
       <Filter>Features</Filter>
     </ClCompile>
-    <ClCompile Include="features\Autowall.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="features\Resolver.cpp">
+      <Filter>Features</Filter>
     </ClCompile>
     <ClCompile Include="features\Aimbot.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Features</Filter>
     </ClCompile>
-    <ClCompile Include="features\Resolver.cpp">
+    <ClCompile Include="features\Autowall.cpp">
       <Filter>Features</Filter>
     </ClCompile>
   </ItemGroup>
