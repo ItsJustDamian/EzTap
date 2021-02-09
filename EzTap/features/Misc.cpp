@@ -6,7 +6,7 @@ void Misc::Bunnyhop(CUserCmd* pCmd)
 		return;
 
 	static auto wasLastTimeOnGround{ LocalPlayer->flags() & 1 };
-
+	
 	if (!(LocalPlayer->flags() & 1) && LocalPlayer->moveType() != MoveType::LADDER && !wasLastTimeOnGround)
 		pCmd->buttons &= ~IN_JUMP;
 
@@ -40,4 +40,17 @@ void Misc::RankReveal()
 void Misc::NoFlash(bool enabled)
 {
 	LocalPlayer->SetflashAlpha((enabled ? 0.f : 255.f));
+}
+
+void Misc::ClanTag()
+{
+	float time = interfaces.GlobalVars->realtime;
+	std::string clantag = "PETERHOOK ";
+	std::string curClantag;
+	for (int i = 0; i < clantag.length(); i++) {
+		int curLetter = i + (int)(time * 2); // Rate is 2 characters a second
+		curClantag += clantag[curLetter % clantag.length()]; // Current char is wrapped to clantag length so it loops
+	}
+
+	Utils::SetClantag(curClantag.c_str());
 }
