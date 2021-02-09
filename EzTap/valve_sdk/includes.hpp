@@ -26,3 +26,4 @@
 #include "Interfaces/IVModelInfoClient.hpp"
 #include "Interfaces/IVDebugOverlay.hpp"
 #include "Interfaces/IVModelRender.hpp"
+#include "Interfaces/IEngineSound.hpp"

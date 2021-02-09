@@ -72,11 +72,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(DXSDK_DIR)include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\EzTap\Minhook;$(DXSDK_DIR)LIB\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\Damian\source\repos\EzTap\Minhook;$(DXSDK_DIR)LIB\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(DXSDK_DIR)include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\EzTap\Minhook;$(DXSDK_DIR)LIB\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\Damian\source\repos\EzTap\Minhook;$(DXSDK_DIR)LIB\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -152,10 +152,12 @@
     <ClCompile Include="features\Autowall.cpp" />
     <ClCompile Include="features\Chams.cpp" />
     <ClCompile Include="features\ESP.cpp" />
+    <ClCompile Include="features\LegitBot.cpp" />
     <ClCompile Include="features\Misc.cpp" />
     <ClCompile Include="features\Resolver.cpp" />
     <ClCompile Include="Gui.cpp" />
     <ClCompile Include="Hooks.cpp" />
+    <ClCompile Include="Config.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="valve_sdk\Classes\Color.cpp" />
@@ -177,6 +179,7 @@
     <ClInclude Include="features\Autowall.hpp" />
     <ClInclude Include="features\Chams.hpp" />
     <ClInclude Include="features\ESP.hpp" />
+    <ClInclude Include="features\LegitBot.hpp" />
     <ClInclude Include="features\Misc.hpp" />
     <ClInclude Include="features\Resolver.hpp" />
     <ClInclude Include="Font.hpp" />
@@ -185,6 +188,7 @@
     <ClInclude Include="Hooks.hpp" />
     <ClInclude Include="IconFont.hpp" />
     <ClInclude Include="Interfaces.hpp" />
+    <ClInclude Include="Config.hpp" />
     <ClInclude Include="Memory.hpp" />
     <ClInclude Include="MinHook.h" />
     <ClInclude Include="Render.hpp" />
@@ -203,6 +207,7 @@
     <ClInclude Include="valve_sdk\Interfaces\IClientEntityList.hpp" />
     <ClInclude Include="valve_sdk\Interfaces\ICvar.hpp" />
     <ClInclude Include="valve_sdk\Interfaces\IEngineClient.hpp" />
+    <ClInclude Include="valve_sdk\Interfaces\IEngineSound.hpp" />
     <ClInclude Include="valve_sdk\Interfaces\IEngineTrace.hpp" />
     <ClInclude Include="valve_sdk\Interfaces\IGameEvent.hpp" />
     <ClInclude Include="valve_sdk\Interfaces\IGameUI.hpp" />

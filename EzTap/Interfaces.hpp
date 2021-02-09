@@ -30,6 +30,7 @@ public:
 	DEFINE_INTERFACE(PhysicsSurfaceProps, physicsSurfaceProps, "vphysics.dll", "VPhysicsSurfaceProps", true);
 	DEFINE_INTERFACE(IVDebugOverlay, DebugOverlay, "engine.dll", "VDebugOverlay004", false);
 	DEFINE_INTERFACE(IVModelRender, ModelRender, "engine.dll", "VEngineModel", true);
+	DEFINE_INTERFACE(IEngineSound, EngineSound, "engine.dll", "IEngineSoundClient", true);
 
 	IClientMode* ClientMode = **reinterpret_cast<IClientMode***>((*reinterpret_cast<uintptr_t**>(Client))[10] + 0x5);
 	CGlobalVars* GlobalVars = **reinterpret_cast<CGlobalVars***>(Memory::FindPattern(reinterpret_cast<DWORD>(GetModuleHandleA("client.dll")), "A1 ? ? ? ? 5E 8B 40 10") + 1);

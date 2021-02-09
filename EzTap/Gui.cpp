@@ -80,7 +80,7 @@ void Gui::Render()
 	style.Colors[ImGuiCol_HeaderActive] = ImVec4(0.39f, 0.39f, 0.39f, 1.00f);
 
 	ImGui::SetNextWindowSize(ImVec2(840, 560));
-	ImGui::Begin("skeetttt", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar);
+	ImGui::Begin("EzTap", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar);
 	{
 
 		pos = ImGui::GetWindowPos();
@@ -279,11 +279,11 @@ void Gui::Render()
 		style.Colors[ImGuiCol_HeaderActive] = ImVec4(0.39f, 0.39f, 0.39f, 1.00f);
 		ImGui::BeginChild("main", ImVec2(700, 540));
 		{
-			if (iTab == 0)
-			{
-				static int kanker = 0;
-				ImGui::SliderInt("Kanker", &kanker, 0, 100);
-			}
+			if (iTab == 0) RenderTab1();
+			if (iTab == 1) RenderTab2();
+			if (iTab == 2) RenderTab3();
+			if (iTab == 3) RenderTab4();
+			if (iTab == 4) RenderTab5();
 		}ImGui::EndChild();
 
 	}
@@ -318,4 +318,57 @@ void Gui::Watermark()
 
 	drawList->AddText({ 15, 20 }, ImColor(1.f, 1.f, 1.f), ("Build: " + std::string(__DATE__) + " (PRIVATE)").c_str());
 	drawList->AddText({ 15, 37.5 }, ImColor(204, 27, 207), username);
+}
+
+//Rage Bot
+void Gui::RenderTab1()
+{
+	ImGui::FancyCheckbox("Aimbot##aimbotbtn", &features.Aimbot);
+	ImGui::FancyCheckbox("Auto Wall", &features.Autowall);
+	ImGui::FancyCheckbox("Auto Fire", &features.Aimbot_AutoFire);
+	ImGui::FancyCheckbox("Auto Scope", &features.Aimbot_AutoScope);
+	ImGui::FancyCheckbox("Silent", &features.Aimbot_Silent);
+	ImGui::SliderFloat("Aim FOV", &features.Aimbot_FOV, 1, 180);
+	ImGui::SliderInt("Min Damage", &features.AutowallMinDmg, 1, 200);
+}
+
+//Legit bot
+void Gui::RenderTab2()
+{
+	ImGui::FancyCheckbox("Triggerbot", &features.Legit_Triggerbot);
+	ImGui::FancyCheckbox("Radar Hack", &features.Legit_RadarHack);
+}
+
+//Visuals
+void Gui::RenderTab3()
+{
+	ImGui::FancyCheckbox("Chams", &features.Chams);
+	ImGui::FancyCheckbox("Arm Chams", &features.Chams_Arms);
+	ImGui::FancyCheckbox("Wireframe Arms", &features.Chams_Arms_Wireframe);
+
+	ImGui::Spacing();
+
+	ImGui::FancyCheckbox("Box Esp", &features.BoxEsp);
+	ImGui::FancyCheckbox("Box Esp Name", &features.BoxEspName);
+	ImGui::FancyCheckbox("Box Esp Health", &features.BoxEspHealth);
+	ImGui::FancyCheckbox("Box Esp Armor", &features.BoxEspArmor);
+}
+
+// Settings/Misc
+void Gui::RenderTab4()
+{
+	ImGui::FancyCheckbox("Disable Panorama Blur", &features.NoPanoramaBlur);
+	ImGui::FancyCheckbox("No Hands", &features.NoHands);
+	ImGui::FancyCheckbox("Bunnyhop", &features.Bunnyhop);
+	ImGui::FancyCheckbox("Force Crosshair", &features.ForceCrosshair);
+	ImGui::FancyCheckbox("Rank Reveal", &features.RankReveal);
+	ImGui::FancyCheckbox("No Flash", &features.NoFlash);
+	ImGui::FancyCheckbox("Auto Accept", &features.AutoAccept);
+	ImGui::SliderInt("FOV", &features.FOV, 60, 160);
+}
+
+// Skin Changer
+void Gui::RenderTab5()
+{
+	ImGui::Text("To be added...");
 }

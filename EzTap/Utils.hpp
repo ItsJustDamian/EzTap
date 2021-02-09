@@ -5,5 +5,6 @@
 namespace Utils
 {
 	void SetClantag(const char * tag);
+	void SetPlayerReady();
 };
 

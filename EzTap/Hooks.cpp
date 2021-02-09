@@ -10,6 +10,7 @@ typedef void(__stdcall* OverrideViewFn)(CViewSetup* setup);
 typedef bool(__stdcall* CreateMoveFn)(float frametime, CUserCmd* pCmd);
 typedef void(__stdcall* FrameStageNotifyFn)(ClientFrameStage_t curStage);
 typedef void(__fastcall* DrawModelExecuteFn)(void* _this, int edx, IMatRenderContext* ctx, const DrawModelState_t& state, const ModelRenderInfo_t& pInfo, matrix3x4* pCustomBoneToWorld);
+typedef void(__fastcall* EmitSoundFn)(void* ecx, void* edx, void* filter, int iEntIndex, int iChannel, const char* pSoundEntry, unsigned int nSoundEntryHash, const char* pSample, float flVolume, float flAttenuation, int nSeed, int iFlags, int iPitch, const Vector* pOrigin, const Vector* pDirection, Vector* pUtlVecOrigins, bool bUpdatePositions, float soundtime, int speakerentity, void*& params);
 
 //Externals
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -23,6 +24,7 @@ OverrideViewFn oOverrideView;
 CreateMoveFn oCreateMove;
 FrameStageNotifyFn oFrameStageNotify;
 DrawModelExecuteFn oDrawModelExecute;
+EmitSoundFn oEmitSound;
 
 //Hooks
 
@@ -130,6 +132,9 @@ static bool __stdcall hkCreateMove(float frametime, CUserCmd* pCmd)
     if (features.RankReveal)
         Misc::RankReveal();
 
+    if (features.Legit_Triggerbot)
+        LegitBot::Triggerbot(pCmd);
+
     return false; // Send to server, but not update on client
 }
 
@@ -150,6 +155,15 @@ static void __stdcall hkFrameStageNotify(ClientFrameStage_t curStage)
     Misc::ForceCrosshair();
     Misc::NoFlash(features.NoFlash);
 
+    if (features.Legit_RadarHack)
+    {
+        static int tickCount = 0;
+        if (tickCount < 20) tickCount++;
+        else {
+            tickCount = 0; LegitBot::RadarHack();
+        }
+    }
+
     return oFrameStageNotify(curStage);
 }
 
@@ -164,6 +178,17 @@ static void __fastcall hkDrawModelExecute(void* _this, int edx, IMatRenderContex
     interfaces.ModelRender->ForcedMaterialOverride(nullptr);
 }
 
+static void __fastcall hkEmitSound(void* ecx, void* edx, void* filter, int iEntIndex, int iChannel, const char* pSoundEntry, unsigned int nSoundEntryHash, const char* pSample, float flVolume, float flAttenuation, int nSeed, int iFlags, int iPitch, const Vector* pOrigin, const Vector* pDirection, Vector* pUtlVecOrigins, bool bUpdatePositions, float soundtime, int speakerentity, void*& params)
+{
+    if (features.AutoAccept)
+    {
+        if (!strcmp(pSoundEntry, "UIPanorama.popup_accept_match_beep"))
+            Utils::SetPlayerReady();
+    }
+
+    return oEmitSound(ecx, edx, filter, iEntIndex, iChannel, pSoundEntry, nSoundEntryHash, pSample, flVolume, flAttenuation, nSeed, iFlags, iPitch, pOrigin, pDirection, pUtlVecOrigins, bUpdatePositions, soundtime, speakerentity, params);
+}
+
 void Hooks::Setup()
 {
     oWndProc = (WNDPROC)SetWindowLongPtr(FindWindowA(0, "Counter-Strike: Global Offensive"), GWL_WNDPROC, (LONG_PTR)WndProc);
@@ -176,4 +201,5 @@ void Hooks::Setup()
     oOverrideView = HookFunction<OverrideViewFn>(interfaces.ClientMode, 18, hkOverrideView);
     oFrameStageNotify = HookFunction<FrameStageNotifyFn>(interfaces.Client, 37, hkFrameStageNotify);
     oDrawModelExecute = HookFunction<DrawModelExecuteFn>(interfaces.ModelRender, 21, hkDrawModelExecute);
+    oEmitSound = HookFunction<EmitSoundFn>(interfaces.EngineSound, 5, hkEmitSound);
 }

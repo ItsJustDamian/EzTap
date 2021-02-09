@@ -7,6 +7,7 @@
 #include "Memory.hpp"
 #include "Render.hpp"
 #include "Gui.hpp"
+#include "Utils.hpp"
 
 #include "../ImGui/imgui.h"
 #include "../ImGui/imgui_impl_dx9.h"
@@ -16,10 +17,11 @@
 #include "features/Chams.hpp"
 #include "features/Misc.hpp"
 #include "features/Aimbot.hpp"
+#include "features/LegitBot.hpp"
 
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
-#pragma comment(lib, "libMinHook-x86-v141-mt.lib")
+#pragma comment(lib, "libMinHook.x86.lib")
 
 class IMatRenderContext;
 
