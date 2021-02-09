@@ -42,7 +42,9 @@ void Misc::NoFlash(bool enabled)
 	LocalPlayer->SetflashAlpha((enabled ? 0.f : 255.f));
 }
 
+static int delay = 0;
+
 void Misc::ClanTag()
 {
-	Utils::SetClantag("KANKER");
+	Utils::SetClantag("EzTap.gg");
 }

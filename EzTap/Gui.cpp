@@ -282,7 +282,30 @@ void Gui::Render()
 			if (iTab == 0)
 			{
 				static int kanker = 0;
-				ImGui::FancyCheckbox("Chams", &features.Clantag);
+				
+			}
+			if (iTab == 2)
+			{
+				static int kanker2 = 0;
+				ImGui::FancyCheckbox("Box ESP", &features.BoxEsp);
+				ImGui::FancyCheckbox("Name ESP", &features.BoxEspName);
+				ImGui::FancyCheckbox("Health ESP", &features.BoxEspHealth);
+				ImGui::FancyCheckbox("Armor ESP", &features.BoxEspArmor);
+				ImGui::FancyCheckbox("Chams", &features.Chams);
+				ImGui::FancyCheckbox("Arm Chams", &features.Chams_Arms);
+				ImGui::FancyCheckbox("Arm Wireframe", &features.Chams_Arms_Wireframe);
+
+			}
+			if (iTab == 3)
+			{
+				static int kanker3 = 0;
+				ImGui::FancyCheckbox("Bunnyhop", &features.Bunnyhop);
+				ImGui::FancyCheckbox("Disable panorama blur", &features.NoPanoramaBlur);
+				ImGui::FancyCheckbox("Disable hands", &features.NoHands);
+				ImGui::FancyCheckbox("Rank revealer", &features.RankReveal);
+				ImGui::FancyCheckbox("Remove flashbang", &features.NoFlash);
+				ImGui::FancyCheckbox("Clantag spammer", &features.Clantag);
+				ImGui::FancyCheckbox("Force crosshair", &features.ForceCrosshair);
 				if (features.Clantag)
 				{
 					Misc::ClanTag();
