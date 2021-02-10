@@ -25,6 +25,8 @@
 
 class IMatRenderContext;
 
+inline bool menuOpen = false;
+
 static auto GetVFunc(void* base, unsigned int index)
 {
 	return static_cast<uintptr_t>((*reinterpret_cast<int**>(base))[index]);

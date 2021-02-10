@@ -28,13 +28,9 @@ EmitSoundFn oEmitSound;
 
 //Hooks
 
-static bool menuOpen = false;
 static void __stdcall hkLockCursor()
 {
-    if (menuOpen && interfaces.Engine->isIngame())
-        return interfaces.Surface->unlockCursor();
-
-    return oLockCursor();
+    (menuOpen && interfaces.Engine->isIngame()) ? interfaces.Surface->unlockCursor() : oLockCursor();
 }
 
 static HRESULT __stdcall hkEndScene(IDirect3DDevice9* pDevice)
@@ -54,9 +50,6 @@ static HRESULT __stdcall hkEndScene(IDirect3DDevice9* pDevice)
         IconFont = io.Fonts->AddFontFromMemoryTTF(badcache::fileBytes, 46.f, 46.f);
     }
 
-    if (menuOpen && interfaces.Engine->isIngame() && oLockCursor == nullptr)
-        oLockCursor = HookFunction<LockCursorFn>(interfaces.Surface, 67, hkLockCursor);
-
     if (GetAsyncKeyState(VK_INSERT) & 1)
         menuOpen = !menuOpen;
 
@@ -74,6 +67,8 @@ static HRESULT __stdcall hkEndScene(IDirect3DDevice9* pDevice)
     {
         ESP::Render();
     }
+
+    DXHooks->ExecuteAllCallbacks();
 
     ImGui::EndFrame();
     ImGui::Render();
@@ -135,6 +130,8 @@ static bool __stdcall hkCreateMove(float frametime, CUserCmd* pCmd)
     if (features.Legit_Triggerbot)
         LegitBot::Triggerbot(pCmd);
 
+    CMHooks->ExecuteAllCallbacks();
+
     return false; // Send to server, but not update on client
 }
 
@@ -152,6 +149,9 @@ static void __stdcall hkFrameStageNotify(ClientFrameStage_t curStage)
     if (!LocalPlayer || interfaces.Engine->isTakingScreenshot())
         return oFrameStageNotify(curStage);
 
+    if (!interfaces.Engine->isIngame())
+        return oFrameStageNotify(curStage);
+
     Misc::ForceCrosshair();
     Misc::NoFlash(features.NoFlash);
 
@@ -164,11 +164,25 @@ static void __stdcall hkFrameStageNotify(ClientFrameStage_t curStage)
         }
     }
 
+    if (curStage == ClientFrameStage_t::FRAME_START && features.ClanTag)
+    {
+        static int tickCount = 0;
+        if (tickCount < 20) tickCount++;
+        else {
+            tickCount = 0; Misc::ClanTag();
+        }
+    }
+
+    FSNHooks->ExecuteAllCallbacks();
+
     return oFrameStageNotify(curStage);
 }
 
 static void __fastcall hkDrawModelExecute(void* _this, int edx, IMatRenderContext* ctx, const DrawModelState_t& state, const ModelRenderInfo_t& pInfo, matrix3x4* pCustomBoneToWorld)
 {
+    if(!LocalPlayer || !interfaces.Engine->isIngame())
+        return oDrawModelExecute(_this, edx, ctx, state, pInfo, pCustomBoneToWorld);
+
     if (interfaces.ModelRender->IsForcedMaterialOverride() && !strstr(pInfo.pModel->szName, "arms") && !strstr(pInfo.pModel->szName, "weapons/v_"))
         return oDrawModelExecute(_this, edx, ctx, state, pInfo, pCustomBoneToWorld);
 
@@ -191,15 +205,36 @@ static void __fastcall hkEmitSound(void* ecx, void* edx, void* filter, int iEntI
 
 void Hooks::Setup()
 {
-    oWndProc = (WNDPROC)SetWindowLongPtr(FindWindowA(0, "Counter-Strike: Global Offensive"), GWL_WNDPROC, (LONG_PTR)WndProc);
+    static bool initHooks = true;
+    static void* dxBase;
+    if (initHooks)
+    {
+        initHooks = false;
+        oWndProc = (WNDPROC)SetWindowLongPtr(FindWindowA(0, "Counter-Strike: Global Offensive"), GWL_WNDPROC, (LONG_PTR)WndProc);
+        dxBase = reinterpret_cast<void*>(**reinterpret_cast<unsigned long****>(Memory::FindPattern(reinterpret_cast<unsigned long>(GetModuleHandleA("shaderapidx9.dll")), "A1 ?? ?? ?? ?? 50 8B 08 FF 51 0C") + 0x1));
+    }
 
-	void* dxBase = reinterpret_cast<void*>(**reinterpret_cast<unsigned long****>(Memory::FindPattern(reinterpret_cast<unsigned long>(GetModuleHandleA("shaderapidx9.dll")), "A1 ?? ?? ?? ?? 50 8B 08 FF 51 0C") + 0x1));
-
-	oEndScene = HookFunction<EndSceneFn>(dxBase, 42, hkEndScene);
-	oReset = HookFunction<ResetFn>(dxBase, 16, hkReset);
-    oCreateMove = HookFunction<CreateMoveFn>(interfaces.ClientMode, 24, hkCreateMove);
-    oOverrideView = HookFunction<OverrideViewFn>(interfaces.ClientMode, 18, hkOverrideView);
-    oFrameStageNotify = HookFunction<FrameStageNotifyFn>(interfaces.Client, 37, hkFrameStageNotify);
-    oDrawModelExecute = HookFunction<DrawModelExecuteFn>(interfaces.ModelRender, 21, hkDrawModelExecute);
-    oEmitSound = HookFunction<EmitSoundFn>(interfaces.EngineSound, 5, hkEmitSound);
+    if(!oEndScene)
+        oEndScene = HookFunction<EndSceneFn>(dxBase, 42, hkEndScene);
+    
+    if (!oReset)
+        oReset = HookFunction<ResetFn>(dxBase, 16, hkReset);
+    
+    if (!oCreateMove && interfaces.Engine->isIngame())
+        oCreateMove = HookFunction<CreateMoveFn>(interfaces.ClientMode, 24, hkCreateMove);
+    
+    if (!oOverrideView && interfaces.Engine->isIngame())
+        oOverrideView = HookFunction<OverrideViewFn>(interfaces.ClientMode, 18, hkOverrideView);
+    
+    if (!oFrameStageNotify && interfaces.Engine->isIngame())
+        oFrameStageNotify = HookFunction<FrameStageNotifyFn>(interfaces.Client, 37, hkFrameStageNotify);
+    
+    if (!oDrawModelExecute && interfaces.Engine->isIngame())
+        oDrawModelExecute = HookFunction<DrawModelExecuteFn>(interfaces.ModelRender, 21, hkDrawModelExecute);
+    
+    if (!oEmitSound && interfaces.Engine->isIngame())
+        oEmitSound = HookFunction<EmitSoundFn>(interfaces.EngineSound, 5, hkEmitSound);
+    
+    if (!oLockCursor && interfaces.Engine->isIngame())
+        oLockCursor = HookFunction<LockCursorFn>(interfaces.Surface, 67, hkLockCursor);
 }

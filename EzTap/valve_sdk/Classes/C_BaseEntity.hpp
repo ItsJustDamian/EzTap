@@ -406,7 +406,7 @@ public:
 
 	bool isVisible(const Vector& position = { }) noexcept;
 	bool isBodyVisible() noexcept;
-	auto getUserId() noexcept;
+	int getUserId() noexcept;
 	char* getPlayerName() noexcept;
 	float GetBombTimer() noexcept;
 	bool isValid() noexcept;

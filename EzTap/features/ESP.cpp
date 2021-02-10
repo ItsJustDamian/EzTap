@@ -61,6 +61,6 @@ void ESP::Render()
 
 		if (pEntityClientClass->m_ClassID == EClassIds::CBasePlayer)
 			BoxEsp(i, pEntity, features.BoxEspName, features.BoxEspHealth, features.BoxEspArmor);
-		else DrawMisc(pEntity, pEntityClientClass);
+		//else DrawMisc(pEntity, pEntityClientClass);
 	}
 }

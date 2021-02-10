@@ -34,6 +34,18 @@
     <Filter Include="Features">
       <UniqueIdentifier>{d7e64481-caca-4761-89ca-808ffdad628f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Features\Events">
+      <UniqueIdentifier>{d5bf55aa-a2ef-4339-85ec-ceae7c1d319c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lua">
+      <UniqueIdentifier>{25d8bcd5-4d1d-4d18-911c-d4809f09b723}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\LUA">
+      <UniqueIdentifier>{40a29c5d-3195-404d-a45a-9d0481f34c9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\LUA">
+      <UniqueIdentifier>{bcded5f2-1a51-4915-9790-6dbdef1f52c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -110,6 +122,15 @@
     </ClCompile>
     <ClCompile Include="Config.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="features\events\KillChat.cpp">
+      <Filter>Features\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="lua\LuaEngine.cpp">
+      <Filter>Source Files\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="lua\ExportedFunctions.cpp">
+      <Filter>Source Files\LUA</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -280,6 +301,99 @@
     </ClInclude>
     <ClInclude Include="valve_sdk\Interfaces\IEngineSound.hpp">
       <Filter>valve_sdk\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="features\events\KillChat.hpp">
+      <Filter>Features\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\lua.hpp">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\LuaBridge.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\luaconf.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\lualib.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\Map.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\RefCountedObject.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\RefCountedPtr.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\UnorderedMap.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\Vector.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\lauxlib.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\List.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\lua.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\LuaBridge\detail\dump.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\LuaBridge\detail\FuncTraits.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\LuaBridge\detail\Iterator.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\LuaBridge\detail\LuaException.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\LuaBridge\detail\LuaHelpers.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\LuaBridge\detail\LuaRef.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\LuaBridge\detail\Namespace.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\LuaBridge\detail\Security.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\LuaBridge\detail\Stack.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\LuaBridge\detail\TypeList.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\LuaBridge\detail\TypeTraits.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\LuaBridge\detail\Userdata.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\LuaBridge\detail\CFunctions.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\LuaBridge\detail\ClassInfo.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\LuaBridge\detail\Config.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lua\LuaBridge\detail\Constructor.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="lua\LuaEngine.hpp">
+      <Filter>Header Files\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="lua\ExportedFunctions.hpp">
+      <Filter>Header Files\LUA</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -72,11 +72,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(DXSDK_DIR)include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Damian\source\repos\EzTap\Minhook;$(DXSDK_DIR)LIB\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\Damian\source\repos\EzTap\Lua;C:\Users\Damian\source\repos\EzTap\Minhook;$(DXSDK_DIR)LIB\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(DXSDK_DIR)include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Damian\source\repos\EzTap\Minhook;$(DXSDK_DIR)LIB\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\Damian\source\repos\EzTap\Lua;C:\Users\Damian\source\repos\EzTap\Minhook;$(DXSDK_DIR)LIB\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -152,12 +152,15 @@
     <ClCompile Include="features\Autowall.cpp" />
     <ClCompile Include="features\Chams.cpp" />
     <ClCompile Include="features\ESP.cpp" />
+    <ClCompile Include="features\events\KillChat.cpp" />
     <ClCompile Include="features\LegitBot.cpp" />
     <ClCompile Include="features\Misc.cpp" />
     <ClCompile Include="features\Resolver.cpp" />
     <ClCompile Include="Gui.cpp" />
     <ClCompile Include="Hooks.cpp" />
     <ClCompile Include="Config.cpp" />
+    <ClCompile Include="lua\ExportedFunctions.cpp" />
+    <ClCompile Include="lua\LuaEngine.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="valve_sdk\Classes\Color.cpp" />
@@ -174,11 +177,40 @@
     <ClInclude Include="..\ImGui\imstb_rectpack.h" />
     <ClInclude Include="..\ImGui\imstb_textedit.h" />
     <ClInclude Include="..\ImGui\imstb_truetype.h" />
+    <ClInclude Include="..\Lua\lauxlib.h" />
+    <ClInclude Include="..\Lua\List.h" />
+    <ClInclude Include="..\Lua\lua.h" />
+    <ClInclude Include="..\Lua\lua.hpp" />
+    <ClInclude Include="..\Lua\LuaBridge.h" />
+    <ClInclude Include="..\Lua\LuaBridge\detail\CFunctions.h" />
+    <ClInclude Include="..\Lua\LuaBridge\detail\ClassInfo.h" />
+    <ClInclude Include="..\Lua\LuaBridge\detail\Config.h" />
+    <ClInclude Include="..\Lua\LuaBridge\detail\Constructor.h" />
+    <ClInclude Include="..\Lua\LuaBridge\detail\dump.h" />
+    <ClInclude Include="..\Lua\LuaBridge\detail\FuncTraits.h" />
+    <ClInclude Include="..\Lua\LuaBridge\detail\Iterator.h" />
+    <ClInclude Include="..\Lua\LuaBridge\detail\LuaException.h" />
+    <ClInclude Include="..\Lua\LuaBridge\detail\LuaHelpers.h" />
+    <ClInclude Include="..\Lua\LuaBridge\detail\LuaRef.h" />
+    <ClInclude Include="..\Lua\LuaBridge\detail\Namespace.h" />
+    <ClInclude Include="..\Lua\LuaBridge\detail\Security.h" />
+    <ClInclude Include="..\Lua\LuaBridge\detail\Stack.h" />
+    <ClInclude Include="..\Lua\LuaBridge\detail\TypeList.h" />
+    <ClInclude Include="..\Lua\LuaBridge\detail\TypeTraits.h" />
+    <ClInclude Include="..\Lua\LuaBridge\detail\Userdata.h" />
+    <ClInclude Include="..\Lua\luaconf.h" />
+    <ClInclude Include="..\Lua\lualib.h" />
+    <ClInclude Include="..\Lua\Map.h" />
+    <ClInclude Include="..\Lua\RefCountedObject.h" />
+    <ClInclude Include="..\Lua\RefCountedPtr.h" />
+    <ClInclude Include="..\Lua\UnorderedMap.h" />
+    <ClInclude Include="..\Lua\Vector.h" />
     <ClInclude Include="Console.hpp" />
     <ClInclude Include="features\Aimbot.hpp" />
     <ClInclude Include="features\Autowall.hpp" />
     <ClInclude Include="features\Chams.hpp" />
     <ClInclude Include="features\ESP.hpp" />
+    <ClInclude Include="features\events\KillChat.hpp" />
     <ClInclude Include="features\LegitBot.hpp" />
     <ClInclude Include="features\Misc.hpp" />
     <ClInclude Include="features\Resolver.hpp" />
@@ -189,6 +221,8 @@
     <ClInclude Include="IconFont.hpp" />
     <ClInclude Include="Interfaces.hpp" />
     <ClInclude Include="Config.hpp" />
+    <ClInclude Include="lua\ExportedFunctions.hpp" />
+    <ClInclude Include="lua\LuaEngine.hpp" />
     <ClInclude Include="Memory.hpp" />
     <ClInclude Include="MinHook.h" />
     <ClInclude Include="Render.hpp" />

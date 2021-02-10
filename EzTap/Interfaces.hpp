@@ -4,8 +4,27 @@
 #include <iomanip>
 #include <sstream>
 #include "valve_sdk/includes.hpp"
+#include "Memory.hpp"
 
 class IEngineClient;
+class IClientEntityList;
+class ICvar;
+class IBaseClientDLL;
+class IEngineTrace;
+class IGameUI;
+class IGameEventManager2;
+class IMaterialSystem;
+class IInputSystem;
+class IPrediction;
+class ISurface;
+class IStudioRender;
+class PhysicsSurfaceProps;
+class IVDebugOverlay;
+class IVModelRender;
+class IEngineSound;
+class IClientMode;
+class CGlobalVars;
+class CInput;
 
 class Interfaces
 {

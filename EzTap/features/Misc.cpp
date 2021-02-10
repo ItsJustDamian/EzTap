@@ -47,10 +47,15 @@ void Misc::ClanTag()
 	float time = interfaces.GlobalVars->realtime;
 	std::string clantag = "PETERHOOK ";
 	std::string curClantag;
-	for (int i = 0; i < clantag.length(); i++) {
-		int curLetter = i + (int)(time * 2); // Rate is 2 characters a second
-		curClantag += clantag[curLetter % clantag.length()]; // Current char is wrapped to clantag length so it loops
+
+	static int i = 0;
+	if (i < clantag.length())
+	{
+		int curLetter = i + (int)(time * 2);
+		curClantag += clantag[curLetter % clantag.length()];
+		i++;
 	}
+	else i = 0;
 
 	Utils::SetClantag(curClantag.c_str());
 }

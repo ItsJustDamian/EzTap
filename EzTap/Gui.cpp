@@ -244,6 +244,64 @@ void Gui::Render()
 			ImGui::Button("##fgfgfg", ImVec2(1, 1));
 		}
 
+		/*configs*/
+		{
+			if (iTab == 5) ButtonColor(50, 50, 50); else ButtonColor(15, 15, 15);
+			ImGui::Button("##supline", ImVec2(118, 1));
+
+			ImGui::SameLine();
+
+			ButtonColor(50, 50, 50);
+			ImGui::Button("##fgfgfg", ImVec2(1, 1));
+
+			ButtonColor(15, 15, 15);
+			if (iTab == 5) style.Colors[ImGuiCol_Text] = ImColor(200, 200, 200); else style.Colors[ImGuiCol_Text] = ImColor(80, 80, 80);
+			ImGui::PushFont(IconFont);
+			if (ImGui::Button("H", ImVec2(118, 100))) iTab = 5;
+			ImGui::PopFont();
+			ImGui::SameLine();
+
+			if (iTab != 5)ButtonColor(50, 50, 50); else ButtonColor(15, 15, 15);
+			ImGui::Button("##gfgfgfgfgfgf", ImVec2(1, 100));
+
+			if (iTab == 5) ButtonColor(50, 50, 50); else ButtonColor(15, 15, 15);
+			ImGui::Button("##sdownline", ImVec2(118, 1));
+
+			ImGui::SameLine();
+
+			ButtonColor(50, 50, 50);
+			ImGui::Button("##fgfgfg", ImVec2(1, 1));
+		}
+
+		/*lua*/
+		{
+			if (iTab == 6) ButtonColor(50, 50, 50); else ButtonColor(15, 15, 15);
+			ImGui::Button("##supline", ImVec2(118, 1));
+
+			ImGui::SameLine();
+
+			ButtonColor(50, 50, 50);
+			ImGui::Button("##fgfgfg", ImVec2(1, 1));
+
+			ButtonColor(15, 15, 15);
+			if (iTab == 6) style.Colors[ImGuiCol_Text] = ImColor(200, 200, 200); else style.Colors[ImGuiCol_Text] = ImColor(80, 80, 80);
+			ImGui::PushFont(IconFont);
+			if (ImGui::Button("I", ImVec2(118, 100))) iTab = 6;
+			ImGui::PopFont();
+			ImGui::SameLine();
+
+			if (iTab != 6)ButtonColor(50, 50, 50); else ButtonColor(15, 15, 15);
+			ImGui::Button("##gfgfgfgfgfgf", ImVec2(1, 100));
+
+			if (iTab == 6) ButtonColor(50, 50, 50); else ButtonColor(15, 15, 15);
+			ImGui::Button("##sdownline", ImVec2(118, 1));
+
+			ImGui::SameLine();
+
+			ButtonColor(50, 50, 50);
+			ImGui::Button("##fgfgfg", ImVec2(1, 1));
+		}
+
 		ButtonColor(15, 15, 15);
 		ImGui::Button("##upprtabs", ImVec2(118, 20));
 
@@ -284,6 +342,8 @@ void Gui::Render()
 			if (iTab == 2) RenderTab3();
 			if (iTab == 3) RenderTab4();
 			if (iTab == 4) RenderTab5();
+			if (iTab == 5) RenderTab6();
+			if (iTab == 6) RenderTab7();
 		}ImGui::EndChild();
 
 	}
@@ -364,6 +424,8 @@ void Gui::RenderTab4()
 	ImGui::FancyCheckbox("Rank Reveal", &features.RankReveal);
 	ImGui::FancyCheckbox("No Flash", &features.NoFlash);
 	ImGui::FancyCheckbox("Auto Accept", &features.AutoAccept);
+	ImGui::FancyCheckbox("Clan Tag", &features.ClanTag);
+	ImGui::FancyCheckbox("Trash Talk", &features.TrashTalk);
 	ImGui::SliderInt("FOV", &features.FOV, 60, 160);
 }
 
@@ -371,4 +433,60 @@ void Gui::RenderTab4()
 void Gui::RenderTab5()
 {
 	ImGui::Text("To be added...");
+}
+
+// Configs
+void Gui::RenderTab6()
+{
+
+}
+
+std::vector<std::string> luaList;
+void ReloadLuas()
+{
+	luaList.clear();
+	luaList.empty();
+
+	for (const auto& entry : std::filesystem::directory_iterator("LUA"))
+	{
+		static std::stringstream ss;
+		ss.str("");
+		ss << entry.path().filename().string();
+		luaList.push_back(ss.str());
+	}
+}
+
+// Lua
+static int selectedLua = 0;
+static int selectedActiveLua = 0;
+static int selectedActiveLua1 = 0;
+void Gui::RenderTab7()
+{
+	static bool initLua = true;
+	if (initLua) { ReloadLuas(); initLua = false; }
+
+	if (ImGui::ListBoxHeader("Avalible LUAs"))
+	{
+		for (int i = 0; i < luaList.size(); i++)
+		{
+			std::string script = luaList.at(i);
+
+			if (ImGui::Selectable(script.c_str(), (i == selectedLua)))
+				selectedLua = i;
+		}
+
+		ImGui::ListBoxFooter();
+	}
+
+	if (ImGui::Button("Execute LUA"))
+	{
+		static char fnameBuf[MAX_PATH];
+		sprintf(fnameBuf, "LUA\\%s", luaList.at(selectedLua).c_str());
+		g_pLuaEngine->ExecuteFile(fnameBuf);
+	}
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("Refresh LUAs"))
+		ReloadLuas();
 }

@@ -63,7 +63,7 @@ bool C_BaseEntity::isBodyVisible() noexcept
 	return false;
 }
 
-auto C_BaseEntity::getUserId() noexcept
+int C_BaseEntity::getUserId() noexcept
 {
 	if (playerInfo playerInfo; interfaces.Engine->getPlayerInfo(index(), &playerInfo))
 		return playerInfo.userid;
