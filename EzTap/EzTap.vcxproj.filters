@@ -132,6 +132,9 @@
     <ClCompile Include="lua\ExportedFunctions.cpp">
       <Filter>Source Files\LUA</Filter>
     </ClCompile>
+    <ClCompile Include="lua\GameEvents.cpp">
+      <Filter>Source Files\LUA</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Interfaces.hpp">
@@ -393,6 +396,9 @@
       <Filter>Header Files\LUA</Filter>
     </ClInclude>
     <ClInclude Include="lua\ExportedFunctions.hpp">
+      <Filter>Header Files\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="lua\GameEvents.hpp">
       <Filter>Header Files\LUA</Filter>
     </ClInclude>
   </ItemGroup>

@@ -86,6 +86,19 @@ void LuaEngine::RegisterLuaObjects()
 		.addFunction("ShowMessageBox", &ExportedGameUI::ShowMessageBox)
 		.endClass()
 
+		.beginClass<ExportedGameEvent>("GameEventClass")
+		.addFunction("GetName", &ExportedGameEvent::GetName)
+		.addFunction("IsEmpty", &ExportedGameEvent::IsEmpty)
+		.addFunction("GetBool", &ExportedGameEvent::GetBool)
+		.addFunction("GetInt", &ExportedGameEvent::GetInt)
+		.addFunction("GetFloat", &ExportedGameEvent::GetFloat)
+		.addFunction("GetString", &ExportedGameEvent::GetString)
+		.addFunction("SetBool", &ExportedGameEvent::SetBool)
+		.addFunction("SetInt", &ExportedGameEvent::SetInt)
+		.addFunction("SetFloat", &ExportedGameEvent::SetFloat)
+		.addFunction("SetString", &ExportedGameEvent::SetString)
+		.endClass()
+
 		.beginClass<LUAHooks>("HooksClass")
 		.addFunction("RegisterCallback", &LUAHooks::RegisterCallback)
 		.addFunction("ExecuteAllCallbacks", &LUAHooks::ExecuteAllCallbacks)
@@ -98,6 +111,8 @@ void LuaEngine::RegisterLuaObjects()
 		.addVariable("hkDirectX", &DXHooks, false)
 		.addVariable("hkCreateMove", &CMHooks, false)
 		.addVariable("hkFrameStageNotify", &FSNHooks, false)
+		.addVariable("hkEmitSound", &SNDHooks, false)
+		.addVariable("hkGameEvents", &GMEHooks, false)
 
 	.endNamespace();
 }

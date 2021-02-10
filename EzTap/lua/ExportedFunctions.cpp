@@ -318,3 +318,53 @@ void ExportedGameUI::ShowMessageBox(const char* title, const char* message)
 	sprintf(titleBuf, "[EzTap - Lua]: %s", title);
 	interfaces.GameUI->createCmdMsgBox(titleBuf, message);
 }
+
+const char* ExportedGameEvent::GetName()
+{
+	return GameEvent->GetName();
+}
+
+bool ExportedGameEvent::IsEmpty(const char* keyname)
+{
+	return GameEvent->IsEmpty(keyname);
+}
+
+bool ExportedGameEvent::GetBool(const char* keyname)
+{
+	return GameEvent->GetBool(keyname);
+}
+
+int ExportedGameEvent::GetInt(const char* keyname)
+{
+	return GameEvent->GetInt(keyname, -1);
+}
+
+float ExportedGameEvent::GetFloat(const char* keyname)
+{
+	return GameEvent->GetFloat(keyname, -1);
+}
+
+const char* ExportedGameEvent::GetString(const char* keyname)
+{
+	return GameEvent->GetString(keyname);
+}
+
+void ExportedGameEvent::SetBool(const char* keyname, bool v)
+{
+	GameEvent->SetBool(keyname, v);
+}
+
+void ExportedGameEvent::SetInt(const char* keyname, int v)
+{
+	GameEvent->SetInt(keyname, v);
+}
+
+void ExportedGameEvent::SetFloat(const char* keyname, float v)
+{
+	GameEvent->SetFloat(keyname, v);
+}
+
+void ExportedGameEvent::SetString(const char* keyname, const char* v)
+{
+	GameEvent->SetString(keyname, v);
+}

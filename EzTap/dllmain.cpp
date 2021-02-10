@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Interfaces.hpp"
 #include "Console.hpp"
+#include "lua/GameEvents.hpp"
 
 DWORD WINAPI MainThread(LPVOID lpParam)
 {
@@ -19,8 +20,13 @@ DWORD WINAPI MainThread(LPVOID lpParam)
 		MessageBoxA(NULL, "Minhook failed to initialize!", "Error!", 0);
 		exit(-1);
 	}
+	else {
+		Hooks::Setup();
+	}
 
 	KillChat* kc = new KillChat();
+	//GameEvents* ge = new GameEvents();
+
 	g_pLuaEngine->RegisterLuaObjects();
 
 	Sleep(1000);
@@ -29,7 +35,7 @@ DWORD WINAPI MainThread(LPVOID lpParam)
 
 	while (true)
 	{
-		Hooks::Setup();
+		
 		Sleep(1000);
 	}
 

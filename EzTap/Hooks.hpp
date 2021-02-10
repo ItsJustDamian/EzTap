@@ -8,6 +8,7 @@
 #include "Render.hpp"
 #include "Gui.hpp"
 #include "Utils.hpp"
+#include "lua/LuaEngine.hpp"
 
 #include "../ImGui/imgui.h"
 #include "../ImGui/imgui_impl_dx9.h"
@@ -40,10 +41,14 @@ static T HookFunction(void* base, unsigned int index, void* func)
 	MH_CreateHook(reinterpret_cast<void*>(GetVFunc(base, index)), func, &oldFunction);
 	MH_EnableHook(MH_ALL_HOOKS);
 
+	if (oldFunction == nullptr)
+		console.Error("Minhook returned nullptr function!\n");
+
 	return reinterpret_cast<T>(oldFunction);
 }
 
 namespace Hooks
 {
 	void Setup();
+	void Restore();
 }

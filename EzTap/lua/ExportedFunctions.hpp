@@ -11,11 +11,13 @@ class ExportedClientEntityList;
 class ExportedEntity;
 class ExportedVector;
 class ExportedGameUI;
+class ExportedGameEvent;
 
 class IEngineClient;
 class IClientEntityList;
 class C_BaseEntity;
 class IGameUI;
+class IGameEvent;
 
 /* EXPORTED INTERFACES */
 class ExportedInterfaces
@@ -130,6 +132,33 @@ private:
 	IGameUI* GameUI;
 };
 
+class ExportedGameEvent
+{
+public:
+	ExportedGameEvent(IGameEvent* pEvent) : GameEvent(pEvent) {};
+
+	const char* GetName();
+	bool IsEmpty(const char * keyname);
+
+	bool GetBool(const char* keyname);
+	int GetInt(const char* keyname);
+	float GetFloat(const char* keyname);
+	const char* GetString(const char* keyname);
+
+	void SetBool(const char* keyname, bool v);
+	void SetInt(const char* keyname, int v);
+	void SetFloat(const char* keyname, float v);
+	void SetString(const char* keyname, const char* v);
+
+private:
+	IGameEvent* GameEvent;
+};
+
+#define LUAHooksExecWithArgs(hookClass, args) \
+	for (luabridge::LuaRef func : hookClass->funcList) { \
+		func##args; \
+	}
+
 class LUAHooks
 {
 public:
@@ -137,7 +166,7 @@ public:
 	void TerminateCallback(const char * identifier);
 	void ExecuteAllCallbacks();
 
-private:
+public:
 	std::vector<std::string> identList;
 	std::vector<luabridge::LuaRef> funcList;
 
@@ -147,3 +176,5 @@ private:
 inline LUAHooks * DXHooks = new LUAHooks();
 inline LUAHooks * CMHooks = new LUAHooks();
 inline LUAHooks * FSNHooks = new LUAHooks();
+inline LUAHooks * SNDHooks = new LUAHooks();
+inline LUAHooks * GMEHooks = new LUAHooks();

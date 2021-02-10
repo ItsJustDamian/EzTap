@@ -160,6 +160,7 @@
     <ClCompile Include="Hooks.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="lua\ExportedFunctions.cpp" />
+    <ClCompile Include="lua\GameEvents.cpp" />
     <ClCompile Include="lua\LuaEngine.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -222,6 +223,7 @@
     <ClInclude Include="Interfaces.hpp" />
     <ClInclude Include="Config.hpp" />
     <ClInclude Include="lua\ExportedFunctions.hpp" />
+    <ClInclude Include="lua\GameEvents.hpp" />
     <ClInclude Include="lua\LuaEngine.hpp" />
     <ClInclude Include="Memory.hpp" />
     <ClInclude Include="MinHook.h" />

@@ -3,7 +3,10 @@
 #include "../../Lua/LuaBridge.h"
 #include <mutex>
 #include <thread>
-#pragma comment(lib, "liblua54.a")
+//#pragma comment(lib, "liblua54.a")
+//#pragma comment(lib, "lua54.dll")
+
+#pragma comment(lib, "lua54.lib")
 
 #include "ExportedFunctions.hpp"
 

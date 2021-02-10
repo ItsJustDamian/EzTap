@@ -2,15 +2,16 @@
 #include "Font.hpp"
 
 //Typedefs
-typedef HRESULT(__stdcall* EndSceneFn)(IDirect3DDevice9* pDevice);
-typedef long(__stdcall* ResetFn)(IDirect3DDevice9* device, D3DPRESENT_PARAMETERS* pPresentationParameters);
+typedef HRESULT(__stdcall* EndSceneFn)(IDirect3DDevice9*);
+typedef long(__stdcall* ResetFn)(IDirect3DDevice9*, D3DPRESENT_PARAMETERS*);
 typedef LRESULT(CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM);
 typedef void(__stdcall* LockCursorFn)();
-typedef void(__stdcall* OverrideViewFn)(CViewSetup* setup);
-typedef bool(__stdcall* CreateMoveFn)(float frametime, CUserCmd* pCmd);
-typedef void(__stdcall* FrameStageNotifyFn)(ClientFrameStage_t curStage);
-typedef void(__fastcall* DrawModelExecuteFn)(void* _this, int edx, IMatRenderContext* ctx, const DrawModelState_t& state, const ModelRenderInfo_t& pInfo, matrix3x4* pCustomBoneToWorld);
-typedef void(__fastcall* EmitSoundFn)(void* ecx, void* edx, void* filter, int iEntIndex, int iChannel, const char* pSoundEntry, unsigned int nSoundEntryHash, const char* pSample, float flVolume, float flAttenuation, int nSeed, int iFlags, int iPitch, const Vector* pOrigin, const Vector* pDirection, Vector* pUtlVecOrigins, bool bUpdatePositions, float soundtime, int speakerentity, void*& params);
+typedef void(__stdcall* OverrideViewFn)(CViewSetup*);
+typedef bool(__stdcall* CreateMoveFn)(float, CUserCmd*);
+typedef void(__stdcall* FrameStageNotifyFn)(ClientFrameStage_t);
+typedef void(__fastcall* DrawModelExecuteFn)(void*, int, IMatRenderContext*, const DrawModelState_t&, const ModelRenderInfo_t&, matrix3x4*);
+typedef void(__fastcall* EmitSoundFn)(void*, void*, void*, int, int, const char*, unsigned int, const char*, float, float, int, int, int, const Vector*, const Vector*, Vector*, bool, float, int, void*&);
+typedef bool(__fastcall* FireEventFn)(void*, void*, IGameEvent*);
 
 //Externals
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -25,6 +26,7 @@ CreateMoveFn oCreateMove;
 FrameStageNotifyFn oFrameStageNotify;
 DrawModelExecuteFn oDrawModelExecute;
 EmitSoundFn oEmitSound;
+FireEventFn oFireEvent;
 
 //Hooks
 
@@ -96,7 +98,7 @@ static LRESULT __stdcall WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 
 static void __stdcall hkOverrideView(CViewSetup* setup)
 {
-    if (!LocalPlayer || !interfaces.Engine->isIngame() || !LocalPlayer->isAlive())
+    if (!LocalPlayer || !interfaces.Engine->isIngame() || !LocalPlayer->isValid() || !LocalPlayer->isAlive())
         return oOverrideView(setup);
 
     if (LocalPlayer->getActiveWeapon()->isWeaponSniper() && !LocalPlayer->isScoped())
@@ -111,7 +113,7 @@ static bool __stdcall hkCreateMove(float frametime, CUserCmd* pCmd)
 {
     LocalPlayer = interfaces.ClientEntityList->GetClientEntity(interfaces.Engine->getLocalPlayer());
 
-    if (!LocalPlayer || !pCmd->command_number)
+    if (!LocalPlayer || !interfaces.Engine->isIngame() || !LocalPlayer->isValid() || !pCmd->command_number)
         return oCreateMove(frametime, pCmd);
 
     unsigned long* EBPPointer;
@@ -147,10 +149,20 @@ static void __stdcall hkFrameStageNotify(ClientFrameStage_t curStage)
         cvPanoramaBlur->setValue(false);
 
     if (!LocalPlayer || interfaces.Engine->isTakingScreenshot())
-        return oFrameStageNotify(curStage);
+    {
+        if(oFrameStageNotify)
+            return oFrameStageNotify(curStage);
+        else
+            return;
+    }
 
-    if (!interfaces.Engine->isIngame())
-        return oFrameStageNotify(curStage);
+    if (!interfaces.Engine->isIngame() || !LocalPlayer->isValid())
+    {
+        if (oFrameStageNotify)
+            return oFrameStageNotify(curStage);
+        else
+            return;
+    }
 
     Misc::ForceCrosshair();
     Misc::NoFlash(features.NoFlash);
@@ -175,12 +187,15 @@ static void __stdcall hkFrameStageNotify(ClientFrameStage_t curStage)
 
     FSNHooks->ExecuteAllCallbacks();
 
-    return oFrameStageNotify(curStage);
+    if (oFrameStageNotify)
+        return oFrameStageNotify(curStage);
+    else
+        return;
 }
 
 static void __fastcall hkDrawModelExecute(void* _this, int edx, IMatRenderContext* ctx, const DrawModelState_t& state, const ModelRenderInfo_t& pInfo, matrix3x4* pCustomBoneToWorld)
 {
-    if(!LocalPlayer || !interfaces.Engine->isIngame())
+    if(!LocalPlayer || !interfaces.Engine->isIngame() || !LocalPlayer->isValid())
         return oDrawModelExecute(_this, edx, ctx, state, pInfo, pCustomBoneToWorld);
 
     if (interfaces.ModelRender->IsForcedMaterialOverride() && !strstr(pInfo.pModel->szName, "arms") && !strstr(pInfo.pModel->szName, "weapons/v_"))
@@ -200,41 +215,48 @@ static void __fastcall hkEmitSound(void* ecx, void* edx, void* filter, int iEntI
             Utils::SetPlayerReady();
     }
 
+    ExportedVector orgin, direction;
+
+    if (interfaces.Engine->isIngame() && LocalPlayer->isValid())
+    {
+        orgin.SetX(pOrigin->x);
+        orgin.SetY(pOrigin->y);
+        orgin.SetZ(pOrigin->z);
+
+        direction.SetX(pDirection->x);
+        direction.SetY(pDirection->y);
+        direction.SetZ(pDirection->z);
+    }
+
+    LUAHooksExecWithArgs(SNDHooks, (pSoundEntry, pSample, flVolume, flAttenuation, iFlags, soundtime));
+
     return oEmitSound(ecx, edx, filter, iEntIndex, iChannel, pSoundEntry, nSoundEntryHash, pSample, flVolume, flAttenuation, nSeed, iFlags, iPitch, pOrigin, pDirection, pUtlVecOrigins, bUpdatePositions, soundtime, speakerentity, params);
 }
 
+void* dxBase = nullptr;
 void Hooks::Setup()
 {
-    static bool initHooks = true;
-    static void* dxBase;
-    if (initHooks)
-    {
-        initHooks = false;
-        oWndProc = (WNDPROC)SetWindowLongPtr(FindWindowA(0, "Counter-Strike: Global Offensive"), GWL_WNDPROC, (LONG_PTR)WndProc);
-        dxBase = reinterpret_cast<void*>(**reinterpret_cast<unsigned long****>(Memory::FindPattern(reinterpret_cast<unsigned long>(GetModuleHandleA("shaderapidx9.dll")), "A1 ?? ?? ?? ?? 50 8B 08 FF 51 0C") + 0x1));
-    }
+    oWndProc = (WNDPROC)SetWindowLongPtr(FindWindowA(0, "Counter-Strike: Global Offensive"), GWL_WNDPROC, (LONG_PTR)WndProc);
+    dxBase = reinterpret_cast<void*>(**reinterpret_cast<unsigned long****>(Memory::FindPattern(reinterpret_cast<unsigned long>(GetModuleHandleA("shaderapidx9.dll")), "A1 ?? ?? ?? ?? 50 8B 08 FF 51 0C") + 0x1));
 
-    if(!oEndScene)
-        oEndScene = HookFunction<EndSceneFn>(dxBase, 42, hkEndScene);
-    
-    if (!oReset)
-        oReset = HookFunction<ResetFn>(dxBase, 16, hkReset);
-    
-    if (!oCreateMove && interfaces.Engine->isIngame())
-        oCreateMove = HookFunction<CreateMoveFn>(interfaces.ClientMode, 24, hkCreateMove);
-    
-    if (!oOverrideView && interfaces.Engine->isIngame())
-        oOverrideView = HookFunction<OverrideViewFn>(interfaces.ClientMode, 18, hkOverrideView);
-    
-    if (!oFrameStageNotify && interfaces.Engine->isIngame())
-        oFrameStageNotify = HookFunction<FrameStageNotifyFn>(interfaces.Client, 37, hkFrameStageNotify);
-    
-    if (!oDrawModelExecute && interfaces.Engine->isIngame())
-        oDrawModelExecute = HookFunction<DrawModelExecuteFn>(interfaces.ModelRender, 21, hkDrawModelExecute);
-    
-    if (!oEmitSound && interfaces.Engine->isIngame())
-        oEmitSound = HookFunction<EmitSoundFn>(interfaces.EngineSound, 5, hkEmitSound);
-    
-    if (!oLockCursor && interfaces.Engine->isIngame())
-        oLockCursor = HookFunction<LockCursorFn>(interfaces.Surface, 67, hkLockCursor);
+    oEndScene = HookFunction<EndSceneFn>(dxBase, 42, hkEndScene);   
+    oReset = HookFunction<ResetFn>(dxBase, 16, hkReset);
+    oCreateMove = HookFunction<CreateMoveFn>(interfaces.ClientMode, 24, hkCreateMove);   
+    oOverrideView = HookFunction<OverrideViewFn>(interfaces.ClientMode, 18, hkOverrideView);   
+    oFrameStageNotify = HookFunction<FrameStageNotifyFn>(interfaces.Client, 37, hkFrameStageNotify);
+    oDrawModelExecute = HookFunction<DrawModelExecuteFn>(interfaces.ModelRender, 21, hkDrawModelExecute);
+    oEmitSound = HookFunction<EmitSoundFn>(interfaces.EngineSound, 5, hkEmitSound);
+    //oFireEvent = HookFunction<FireEventFn>(interfaces.GameEventManager, 8, hkFireEvent);
+    //oLockCursor = HookFunction<LockCursorFn>(interfaces.Surface, 67, hkLockCursor);
+}
+
+void Hooks::Restore()
+{
+    HookFunction<EndSceneFn>(dxBase, 42, oEndScene);
+    HookFunction<EndSceneFn>(dxBase, 16, oReset);
+    HookFunction<CreateMoveFn>(interfaces.ClientMode, 24, oCreateMove);
+    HookFunction<OverrideViewFn>(interfaces.ClientMode, 18, oOverrideView);
+    HookFunction<FrameStageNotifyFn>(interfaces.Client, 37, oFrameStageNotify);
+    HookFunction<DrawModelExecuteFn>(interfaces.ModelRender, 21, oDrawModelExecute);
+    HookFunction<EmitSoundFn>(interfaces.EngineSound, 5, oEmitSound);
 }
