@@ -1,12 +1,14 @@
 #pragma once
 #include <cstddef>
 #include <optional>
+#include "Logger.hpp"
 
 namespace VFNC
 {
 	template<typename T, std::size_t Idx, typename ...Args>
 	constexpr T callFunc(void* classBase, Args... args) noexcept
 	{
+		//debugLogs->append("calling vfunc idx %i", Idx);
 		return ((*reinterpret_cast<T(__thiscall***)(void*, Args...)>(classBase))[Idx])(classBase, args...);
 	}
 }

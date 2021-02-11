@@ -30,14 +30,30 @@ ExportedGameUI ExportedInterfaces::GetGameUI()
 	return gameUI;
 }
 
+ExportedCvar ExportedInterfaces::GetCvar()
+{
+	static ExportedCvar cvar(interfaces.cvar);
+	return cvar;
+}
+
 void ExportedEngine::ExecuteCommand(const char* str)
 {
 	Engine->executeClientCmd(str);
 }
 
+void ExportedEngine::ExecuteCommandUnrestricted(const char* str)
+{
+	Engine->executeClientCmd_Unrestricted(str);
+}
+
 int ExportedEngine::GetLocalPlayer()
 {
 	return Engine->getLocalPlayer();
+}
+
+int ExportedEngine::GetPlayerIDByUserID(int id)
+{
+	return Engine->getPlayerForUserID(id);
 }
 
 int ExportedEngine::GetMaxClients()
@@ -48,6 +64,15 @@ int ExportedEngine::GetMaxClients()
 bool ExportedEngine::IsInGame()
 {
 	return Engine->isIngame();
+}
+
+ExportedPlayerInfo ExportedEngine::GetPlayerInfo(int id)
+{
+	playerInfo pInfo;
+	if (interfaces.Engine->getPlayerInfo(id, &pInfo))
+		return ExportedPlayerInfo(pInfo);
+
+	return ExportedPlayerInfo(pInfo);
 }
 
 //ExportedVector ExportedEngine::WorldToScreen(ExportedPlayer player, int boneID)
@@ -99,16 +124,26 @@ void ExportedDrawLib::DrawRect(float x, float y, float w, float h, float roundin
 	drawList->AddRect({ x, y }, { x + w, y + h }, ImColor(r, g, b, a), rounding);
 }
 
-void ExportedDrawLib::BeginGUI(const char* name)
+bool ExportedDrawLib::BeginGUI(const char* name)
 {
 	if(menuOpen)
 		ImGui::Begin(name, 0, ImGuiWindowFlags_NoSavedSettings);
+
+	return menuOpen;
 }
 
 void ExportedDrawLib::GUICheckbox(const char* name, bool boolean)
 {
 	if (menuOpen)
 		ImGui::FancyCheckbox(name, &boolean);
+}
+
+bool ExportedDrawLib::GUIButton(const char* label)
+{
+	if (menuOpen)
+		return ImGui::Button(label);
+	else
+		return false;
 }
 
 void ExportedDrawLib::EndGUI()
@@ -367,4 +402,55 @@ void ExportedGameEvent::SetFloat(const char* keyname, float v)
 void ExportedGameEvent::SetString(const char* keyname, const char* v)
 {
 	GameEvent->SetString(keyname, v);
+}
+
+float ExportedConvar::GetFloat()
+{
+	return convar->getFloat();
+}
+
+float ExportedConvar::GetInt()
+{
+	return convar->getInt();
+}
+
+void ExportedConvar::SetString(const char* v)
+{
+	convar->setValue(v);
+}
+
+void ExportedConvar::SetFloat(float v)
+{
+	convar->setValue(v);
+}
+
+void ExportedConvar::SetInt(int v)
+{
+	convar->setValue(v);
+}
+
+ExportedConvar ExportedCvar::FindConvar(const char* name)
+{
+	ConVar* var = interfaces.cvar->findVar(name);
+	return ExportedConvar(var);
+}
+
+const char* ExportedPlayerInfo::GetName()
+{
+	return pInfo.name;
+}
+
+int ExportedPlayerInfo::GetUserID()
+{
+	return pInfo.userid;
+}
+
+const char* ExportedPlayerInfo::GetSteamID()
+{
+	return pInfo.guid;
+}
+
+bool ExportedPlayerInfo::isHLTV()
+{
+	return pInfo.ishltv;
 }

@@ -1,6 +1,5 @@
 #pragma once
 #include "../valve_sdk/includes.hpp"
-#include "../valve_sdk/Interfaces/IEngineClient.hpp"
 #include <vector>
 #include "LuaEngine.hpp"
 
@@ -12,12 +11,38 @@ class ExportedEntity;
 class ExportedVector;
 class ExportedGameUI;
 class ExportedGameEvent;
+class ExportedConvar;
+class ExportedCvar;
+class ExportedPlayerInfo;
 
 class IEngineClient;
 class IClientEntityList;
 class C_BaseEntity;
 class IGameUI;
 class IGameEvent;
+class ICvar;
+class ConVar;
+
+struct playerInfo
+{
+	int64_t __pad0;
+	union {
+		int64_t xuid;
+		struct {
+			int xuidlow;
+			int xuidhigh;
+		};
+	};
+	char name[128];
+	int userid;
+	char guid[33]; // steam id
+	unsigned int friendsid;
+	char friendsname[128];
+	bool fakeplayer;
+	bool ishltv;
+	unsigned int customfiles[4];
+	unsigned char filesdownloaded;
+};
 
 /* EXPORTED INTERFACES */
 class ExportedInterfaces
@@ -28,6 +53,7 @@ public:
 	ExportedDrawLib GetDrawLibrary();
 	ExportedClientEntityList GetClientEntityList();
 	ExportedGameUI GetGameUI();
+	ExportedCvar GetCvar();
 };
 
 /* EXPORTED ENGINE */
@@ -37,10 +63,13 @@ public:
 	ExportedEngine(IEngineClient* engine) : Engine(engine) {};
 
 	void ExecuteCommand(const char* str);
+	void ExecuteCommandUnrestricted(const char* str);
 	int GetLocalPlayer();
+	int GetPlayerIDByUserID(int id);
 	int GetMaxClients();
 	bool IsInGame();
 
+	ExportedPlayerInfo GetPlayerInfo(int id);
 	//ExportedVector WorldToScreen(ExportedPlayer player, int boneID);
 	ExportedVector WorldToScreen(ExportedEntity player);
 private:
@@ -55,8 +84,9 @@ public:
 	void DrawFilledRect(float x, float y, float w, float h, float rounding = 0.f, int r = 255, int g = 255, int b = 255, int a = 255);
 	void DrawRect(float x, float y, float w, float h, float rounding = 0.f, int r = 255, int g = 255, int b = 255, int a = 255);
 
-	void BeginGUI(const char* name);
+	bool BeginGUI(const char* name);
 	void GUICheckbox(const char * name, bool boolean);
+	bool GUIButton(const char * label);
 	void EndGUI();
 };
 
@@ -152,6 +182,43 @@ public:
 
 private:
 	IGameEvent* GameEvent;
+};
+
+class ExportedConvar
+{
+public:
+	ExportedConvar(ConVar* ConVar) : convar(ConVar) {};
+	float GetFloat();
+	float GetInt();
+	void SetString(const char * v);
+	void SetFloat(float v);
+	void SetInt(int v);
+
+private:
+	ConVar* convar;
+};
+
+class ExportedCvar
+{
+public:
+	ExportedCvar(ICvar* cVar) : cvar(cVar) {};
+	ExportedConvar FindConvar(const char * name);
+
+private:
+	ICvar* cvar;
+};
+
+class ExportedPlayerInfo
+{
+public:
+	ExportedPlayerInfo(playerInfo plInfo) : pInfo(plInfo) {};
+	const char* GetName();
+	int GetUserID();
+	const char* GetSteamID();
+	bool isHLTV();
+
+private:
+	playerInfo pInfo;
 };
 
 #define LUAHooksExecWithArgs(hookClass, args) \

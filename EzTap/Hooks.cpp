@@ -98,7 +98,7 @@ static LRESULT __stdcall WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 
 static void __stdcall hkOverrideView(CViewSetup* setup)
 {
-    if (!LocalPlayer || !interfaces.Engine->isIngame() || !LocalPlayer->isValid() || !LocalPlayer->isAlive())
+    if (!interfaces.Engine->isIngame() || !LocalPlayer || !LocalPlayer->isValid())
         return oOverrideView(setup);
 
     if (LocalPlayer->getActiveWeapon()->isWeaponSniper() && !LocalPlayer->isScoped())
@@ -113,7 +113,7 @@ static bool __stdcall hkCreateMove(float frametime, CUserCmd* pCmd)
 {
     LocalPlayer = interfaces.ClientEntityList->GetClientEntity(interfaces.Engine->getLocalPlayer());
 
-    if (!LocalPlayer || !interfaces.Engine->isIngame() || !LocalPlayer->isValid() || !pCmd->command_number)
+    if (!LocalPlayer || !pCmd->command_number)
         return oCreateMove(frametime, pCmd);
 
     unsigned long* EBPPointer;
@@ -148,21 +148,11 @@ static void __stdcall hkFrameStageNotify(ClientFrameStage_t curStage)
     else if (!features.NoPanoramaBlur && cvPanoramaBlur->getInt() == 1)
         cvPanoramaBlur->setValue(false);
 
-    if (!LocalPlayer || interfaces.Engine->isTakingScreenshot())
-    {
-        if(oFrameStageNotify)
-            return oFrameStageNotify(curStage);
-        else
-            return;
-    }
-
-    if (!interfaces.Engine->isIngame() || !LocalPlayer->isValid())
-    {
+    if (!interfaces.Engine->isIngame() || !LocalPlayer || !LocalPlayer->isValid() || interfaces.Engine->isTakingScreenshot())
         if (oFrameStageNotify)
             return oFrameStageNotify(curStage);
         else
             return;
-    }
 
     Misc::ForceCrosshair();
     Misc::NoFlash(features.NoFlash);
@@ -233,6 +223,12 @@ static void __fastcall hkEmitSound(void* ecx, void* edx, void* filter, int iEntI
     return oEmitSound(ecx, edx, filter, iEntIndex, iChannel, pSoundEntry, nSoundEntryHash, pSample, flVolume, flAttenuation, nSeed, iFlags, iPitch, pOrigin, pDirection, pUtlVecOrigins, bUpdatePositions, soundtime, speakerentity, params);
 }
 
+#define CheckHook(oFunc, name) \
+    if (!oFunc) \
+        errorLogs->append("Failed to hook %s!", name); \
+    else \
+        debugLogs->append("%s hooked successfully, Old Function 0x%X", name, oFunc);
+
 void* dxBase = nullptr;
 void Hooks::Setup()
 {
@@ -241,13 +237,21 @@ void Hooks::Setup()
 
     oEndScene = HookFunction<EndSceneFn>(dxBase, 42, hkEndScene);   
     oReset = HookFunction<ResetFn>(dxBase, 16, hkReset);
-    oCreateMove = HookFunction<CreateMoveFn>(interfaces.ClientMode, 24, hkCreateMove);   
-    oOverrideView = HookFunction<OverrideViewFn>(interfaces.ClientMode, 18, hkOverrideView);   
+    oCreateMove = HookFunction<CreateMoveFn>(interfaces.ClientMode, 24, hkCreateMove);
+    oOverrideView = HookFunction<OverrideViewFn>(interfaces.ClientMode, 18, hkOverrideView);
     oFrameStageNotify = HookFunction<FrameStageNotifyFn>(interfaces.Client, 37, hkFrameStageNotify);
     oDrawModelExecute = HookFunction<DrawModelExecuteFn>(interfaces.ModelRender, 21, hkDrawModelExecute);
     oEmitSound = HookFunction<EmitSoundFn>(interfaces.EngineSound, 5, hkEmitSound);
     //oFireEvent = HookFunction<FireEventFn>(interfaces.GameEventManager, 8, hkFireEvent);
     //oLockCursor = HookFunction<LockCursorFn>(interfaces.Surface, 67, hkLockCursor);
+
+    CheckHook(oEndScene,"EndScene");
+    CheckHook(oReset,"Reset");
+    CheckHook(oCreateMove,"CreateMove");
+    CheckHook(oOverrideView,"OverrideView");
+    CheckHook(oFrameStageNotify,"FrameStageNotify");
+    CheckHook(oDrawModelExecute,"DrawModelExecute");
+    CheckHook(oEmitSound,"EmitSound");
 }
 
 void Hooks::Restore()

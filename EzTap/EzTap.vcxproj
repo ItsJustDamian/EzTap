@@ -146,6 +146,7 @@
     <ClCompile Include="..\ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="..\ImGui\imgui_tables.cpp" />
     <ClCompile Include="..\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="Configs.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="features\Aimbot.cpp" />
@@ -158,7 +159,6 @@
     <ClCompile Include="features\Resolver.cpp" />
     <ClCompile Include="Gui.cpp" />
     <ClCompile Include="Hooks.cpp" />
-    <ClCompile Include="Config.cpp" />
     <ClCompile Include="lua\ExportedFunctions.cpp" />
     <ClCompile Include="lua\GameEvents.cpp" />
     <ClCompile Include="lua\LuaEngine.cpp" />
@@ -206,6 +206,7 @@
     <ClInclude Include="..\Lua\RefCountedPtr.h" />
     <ClInclude Include="..\Lua\UnorderedMap.h" />
     <ClInclude Include="..\Lua\Vector.h" />
+    <ClInclude Include="Configs.hpp" />
     <ClInclude Include="Console.hpp" />
     <ClInclude Include="features\Aimbot.hpp" />
     <ClInclude Include="features\Autowall.hpp" />
@@ -220,8 +221,9 @@
     <ClInclude Include="Gui.hpp" />
     <ClInclude Include="Hooks.hpp" />
     <ClInclude Include="IconFont.hpp" />
+    <ClInclude Include="ini.h" />
     <ClInclude Include="Interfaces.hpp" />
-    <ClInclude Include="Config.hpp" />
+    <ClInclude Include="Logger.hpp" />
     <ClInclude Include="lua\ExportedFunctions.hpp" />
     <ClInclude Include="lua\GameEvents.hpp" />
     <ClInclude Include="lua\LuaEngine.hpp" />

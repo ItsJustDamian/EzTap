@@ -447,7 +447,7 @@ void ReloadLuas()
 	luaList.clear();
 	luaList.empty();
 
-	for (const auto& entry : std::filesystem::directory_iterator("LUA"))
+	for (const auto& entry : std::filesystem::directory_iterator("EzTap\\LUA"))
 	{
 		static std::stringstream ss;
 		ss.str("");
@@ -481,7 +481,7 @@ void Gui::RenderTab7()
 	if (ImGui::Button("Execute LUA"))
 	{
 		static char fnameBuf[MAX_PATH];
-		sprintf(fnameBuf, "LUA\\%s", luaList.at(selectedLua).c_str());
+		sprintf(fnameBuf, "EzTap\\LUA\\%s", luaList.at(selectedLua).c_str());
 		g_pLuaEngine->ExecuteFile(fnameBuf);
 	}
 

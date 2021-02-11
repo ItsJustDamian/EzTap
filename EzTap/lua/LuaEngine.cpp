@@ -11,7 +11,11 @@ lua_State* LuaEngine::L()
 ExportedInterfaces gl_Interfaces;
 void LuaEngine::RegisterLuaObjects()
 {
-	CreateDirectoryA("LUA", NULL);
+	CreateDirectoryA("EzTap", NULL);
+	CreateDirectoryA("EzTap\\LUA", NULL);
+	CreateDirectoryA("EzTap\\CONFIGS", NULL);
+	CreateDirectoryA("EzTap\\CRASH-REPORTS", NULL);
+	CreateDirectoryA("EzTap\\LOGS", NULL);
 
 	LOCKLUA();
 	using namespace luabridge;
@@ -24,14 +28,18 @@ void LuaEngine::RegisterLuaObjects()
 		.addFunction("GetDrawLibrary", &ExportedInterfaces::GetDrawLibrary)
 		.addFunction("GetClientEntityList", &ExportedInterfaces::GetClientEntityList)
 		.addFunction("GetGameUI", &ExportedInterfaces::GetGameUI)
+		.addFunction("GetCvar", &ExportedInterfaces::GetCvar)
 		.endClass()
 
 		.beginClass<ExportedEngine>("EngineInterface")
 		.addFunction("GetLocalPlayer", &ExportedEngine::GetLocalPlayer)
 		.addFunction("ExecuteCmd", &ExportedEngine::ExecuteCommand)
+		.addFunction("ExecuteCmdUnrestricted", &ExportedEngine::ExecuteCommandUnrestricted)
 		.addFunction("GetMaxClients", &ExportedEngine::GetMaxClients)
 		.addFunction("IsInGame", &ExportedEngine::IsInGame)
 		.addFunction("WorldToScreen", &ExportedEngine::WorldToScreen)
+		.addFunction("GetPlayerIDByUserID", &ExportedEngine::GetPlayerIDByUserID)
+		.addFunction("GetPlayerInfo", &ExportedEngine::GetPlayerInfo)
 		.endClass()
 
 		.beginClass<ExportedEntity>("PlayerClass")
@@ -65,6 +73,7 @@ void LuaEngine::RegisterLuaObjects()
 		.addFunction("DrawRect", &ExportedDrawLib::DrawRect)
 		.addFunction("BeginGUI", &ExportedDrawLib::BeginGUI)
 		.addFunction("GUICheckbox", &ExportedDrawLib::GUICheckbox)
+		.addFunction("GUIButton", &ExportedDrawLib::GUIButton)
 		.addFunction("EndGUI", &ExportedDrawLib::EndGUI)
 		.endClass()
 
@@ -97,6 +106,25 @@ void LuaEngine::RegisterLuaObjects()
 		.addFunction("SetInt", &ExportedGameEvent::SetInt)
 		.addFunction("SetFloat", &ExportedGameEvent::SetFloat)
 		.addFunction("SetString", &ExportedGameEvent::SetString)
+		.endClass()
+
+		.beginClass<ExportedCvar>("CvarInterface")
+		.addFunction("FindConvar", &ExportedCvar::FindConvar)
+		.endClass()
+
+		.beginClass<ExportedConvar>("ConvarClass")
+		.addFunction("GetFloat", &ExportedConvar::GetFloat)
+		.addFunction("GetInt", &ExportedConvar::GetInt)
+		.addFunction("SetString", &ExportedConvar::SetString)
+		.addFunction("SetFloat", &ExportedConvar::SetFloat)
+		.addFunction("SetInt", &ExportedConvar::SetInt)
+		.endClass()
+
+		.beginClass<ExportedPlayerInfo>("PlayerInfoClass")
+		.addFunction("GetName", &ExportedPlayerInfo::GetName)
+		.addFunction("GetUserID", &ExportedPlayerInfo::GetUserID)
+		.addFunction("GetSteamID", &ExportedPlayerInfo::GetSteamID)
+		.addFunction("isHLTV", &ExportedPlayerInfo::isHLTV)
 		.endClass()
 
 		.beginClass<LUAHooks>("HooksClass")

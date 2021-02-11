@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <ctime>
+#include "Logger.hpp"
 
 class Console
 {

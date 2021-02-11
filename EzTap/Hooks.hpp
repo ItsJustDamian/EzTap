@@ -9,6 +9,7 @@
 #include "Gui.hpp"
 #include "Utils.hpp"
 #include "lua/LuaEngine.hpp"
+#include "Logger.hpp"
 
 #include "../ImGui/imgui.h"
 #include "../ImGui/imgui_impl_dx9.h"

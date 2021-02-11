@@ -116,6 +116,8 @@ void Console::Info(const char * fmt, ...)
 
 	SetConsoleTextAttribute(consoleHandle, 7);
 	std::cout << "[x] " << buffer;
+
+	logs->append(buffer);
 }
 
 void Console::Warning(const char * fmt, ...)
@@ -139,6 +141,8 @@ void Console::Warning(const char * fmt, ...)
 	std::cout << "[x] ";
 	SetConsoleTextAttribute(consoleHandle, 7);
 	std::cout << buffer;
+
+	logs->append(buffer);
 }
 
 void Console::Error(const char * fmt, ...)
@@ -162,6 +166,8 @@ void Console::Error(const char * fmt, ...)
 	std::cout << "[x] ";
 	SetConsoleTextAttribute(consoleHandle, 7);
 	std::cout << buffer;
+
+	errorLogs->append(buffer);
 }
 
 void Console::Debug(const char * fmt, ...)
@@ -185,4 +191,6 @@ void Console::Debug(const char * fmt, ...)
 	std::cout << "[x] ";
 	SetConsoleTextAttribute(consoleHandle, 7);
 	std::cout << buffer;
+
+	debugLogs->append(buffer);
 }
