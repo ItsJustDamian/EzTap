@@ -132,6 +132,15 @@ static bool __stdcall hkCreateMove(float frametime, CUserCmd* pCmd)
     if (features.Legit_Triggerbot)
         LegitBot::Triggerbot(pCmd);
 
+    if (features.ClanTag)
+    {
+        static int tickCount = 0;
+        if (tickCount < 3) tickCount++;
+        else {
+            tickCount = 0; Misc::ClanTag();
+        }
+    }
+
     CMHooks->ExecuteAllCallbacks();
 
     return false; // Send to server, but not update on client
@@ -163,15 +172,6 @@ static void __stdcall hkFrameStageNotify(ClientFrameStage_t curStage)
         if (tickCount < 20) tickCount++;
         else {
             tickCount = 0; LegitBot::RadarHack();
-        }
-    }
-
-    if (curStage == ClientFrameStage_t::FRAME_START && features.ClanTag)
-    {
-        static int tickCount = 0;
-        if (tickCount < 20) tickCount++;
-        else {
-            tickCount = 0; Misc::ClanTag();
         }
     }
 

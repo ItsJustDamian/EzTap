@@ -44,18 +44,37 @@ void Misc::NoFlash(bool enabled)
 
 void Misc::ClanTag()
 {
-	float time = interfaces.GlobalVars->realtime;
-	std::string clantag = "PETERHOOK ";
+	int time = interfaces.GlobalVars->realtime;
+
 	std::string curClantag;
-
-	static int i = 0;
-	if (i < clantag.length())
+	switch (time % 26)
 	{
-		int curLetter = i + (int)(time * 2);
-		curClantag += clantag[curLetter % clantag.length()];
-		i++;
+		case 0: { Utils::SetClantag("............"); } break;
+		case 1: { Utils::SetClantag("E..........."); } break;
+		case 2: { Utils::SetClantag("Ez.........."); } break;
+		case 3: { Utils::SetClantag("EzT........."); } break;
+		case 4: { Utils::SetClantag("EzTa........"); } break;
+		case 5: { Utils::SetClantag("EzTap......."); } break;
+		case 6: { Utils::SetClantag("EzTap......."); } break;
+		case 7: { Utils::SetClantag("EzTap.O....."); } break;
+		case 8: { Utils::SetClantag("EzTap.On...."); } break;
+		case 9: { Utils::SetClantag("EzTap.Onl..."); } break;
+		case 10: { Utils::SetClantag("EzTap.Onli.."); } break;
+		case 11: { Utils::SetClantag("EzTap.Onlin."); } break;
+		case 12: { Utils::SetClantag("EzTap.Online"); } break;
+		case 13: { Utils::SetClantag("EzTap.Online"); } break;
+		case 14: { Utils::SetClantag("EzTap.Online"); } break;
+		case 15: { Utils::SetClantag(".zTap.Online"); } break;
+		case 16: { Utils::SetClantag("..Tap.Online"); } break;
+		case 17: { Utils::SetClantag("...ap.Online"); } break;
+		case 18: { Utils::SetClantag("....p.Online"); } break;
+		case 19: { Utils::SetClantag("......Online"); } break;
+		case 20: { Utils::SetClantag("......Online"); } break;
+		case 21: { Utils::SetClantag(".......nline"); } break;
+		case 22: { Utils::SetClantag("........line"); } break;
+		case 23: { Utils::SetClantag(".........ine"); } break;
+		case 24: { Utils::SetClantag("..........ne"); } break;
+		case 25: { Utils::SetClantag("...........e"); } break;
+		case 26: { Utils::SetClantag("............"); } break;
 	}
-	else i = 0;
-
-	Utils::SetClantag(curClantag.c_str());
 }
