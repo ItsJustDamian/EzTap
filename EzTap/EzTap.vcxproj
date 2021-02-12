@@ -146,6 +146,7 @@
     <ClCompile Include="..\ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="..\ImGui\imgui_tables.cpp" />
     <ClCompile Include="..\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="..\zGui\zgui.cc" />
     <ClCompile Include="Configs.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="dllmain.cpp" />
@@ -154,6 +155,7 @@
     <ClCompile Include="features\Chams.cpp" />
     <ClCompile Include="features\ESP.cpp" />
     <ClCompile Include="features\events\KillChat.cpp" />
+    <ClCompile Include="features\FakeLag.cpp" />
     <ClCompile Include="features\LegitBot.cpp" />
     <ClCompile Include="features\Misc.cpp" />
     <ClCompile Include="features\Resolver.cpp" />
@@ -206,6 +208,7 @@
     <ClInclude Include="..\Lua\RefCountedPtr.h" />
     <ClInclude Include="..\Lua\UnorderedMap.h" />
     <ClInclude Include="..\Lua\Vector.h" />
+    <ClInclude Include="..\zGui\zgui.hh" />
     <ClInclude Include="Configs.hpp" />
     <ClInclude Include="Console.hpp" />
     <ClInclude Include="features\Aimbot.hpp" />
@@ -213,6 +216,7 @@
     <ClInclude Include="features\Chams.hpp" />
     <ClInclude Include="features\ESP.hpp" />
     <ClInclude Include="features\events\KillChat.hpp" />
+    <ClInclude Include="features\FakeLag.hpp" />
     <ClInclude Include="features\LegitBot.hpp" />
     <ClInclude Include="features\Misc.hpp" />
     <ClInclude Include="features\Resolver.hpp" />
@@ -220,6 +224,7 @@
     <ClInclude Include="Globals.hpp" />
     <ClInclude Include="Gui.hpp" />
     <ClInclude Include="Hooks.hpp" />
+    <ClInclude Include="HTTPRequest.hpp" />
     <ClInclude Include="IconFont.hpp" />
     <ClInclude Include="ini.h" />
     <ClInclude Include="Interfaces.hpp" />
@@ -230,6 +235,7 @@
     <ClInclude Include="Memory.hpp" />
     <ClInclude Include="MinHook.h" />
     <ClInclude Include="Render.hpp" />
+    <ClInclude Include="StringSolver.hpp" />
     <ClInclude Include="Utils.hpp" />
     <ClInclude Include="valve_sdk\Classes\CGlobalVars.hpp" />
     <ClInclude Include="valve_sdk\Classes\CInput.hpp" />
@@ -252,6 +258,7 @@
     <ClInclude Include="valve_sdk\Interfaces\IInputSystem.hpp" />
     <ClInclude Include="valve_sdk\Interfaces\IMaterial.hpp" />
     <ClInclude Include="valve_sdk\Interfaces\IMaterialSystem.hpp" />
+    <ClInclude Include="valve_sdk\Interfaces\IPanel.hpp" />
     <ClInclude Include="valve_sdk\Interfaces\IPhysicsSurfaceProps.hpp" />
     <ClInclude Include="valve_sdk\Interfaces\IPrediction.hpp" />
     <ClInclude Include="valve_sdk\Interfaces\IStudioRender.hpp" />

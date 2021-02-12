@@ -1,5 +1,14 @@
+#include "HTTPRequest.hpp"
 #include "Hooks.hpp"
 #include "Font.hpp"
+#pragma comment(lib, "Ws2_32.lib")
+
+// Some auth stuff
+
+std::vector<char> authUrl = { 'h','t','t','p',':','/','/','e','z','t','a','p','.','o','n','l','i','n','e','/','a','u','t','h','.','p','h','p' };
+std::vector<char> authUrlParam1 = { 'h', 'w', 'i', 'd' };
+std::vector<char> authUrlParam2 = { 'c', 'h', 'e', 'c', 'k', 'T', 'y', 'p', 'e' };
+std::vector<char> authUrlContentType = { 'C','o','n','t','e','n','t','-','T','y','p','e',':',' ','a','p','p','l','i','c','a','t','i','o','n','/','x','-','w','w','w','-','f','o','r','m','-','u','r','l','e','n','c','o','d','e','d' };
 
 //Typedefs
 typedef HRESULT(__stdcall* EndSceneFn)(IDirect3DDevice9*);
@@ -12,6 +21,7 @@ typedef void(__stdcall* FrameStageNotifyFn)(ClientFrameStage_t);
 typedef void(__fastcall* DrawModelExecuteFn)(void*, int, IMatRenderContext*, const DrawModelState_t&, const ModelRenderInfo_t&, matrix3x4*);
 typedef void(__fastcall* EmitSoundFn)(void*, void*, void*, int, int, const char*, unsigned int, const char*, float, float, int, int, int, const Vector*, const Vector*, Vector*, bool, float, int, void*&);
 typedef bool(__fastcall* FireEventFn)(void*, void*, IGameEvent*);
+typedef void(__stdcall* PaintTraverseFn)(unsigned int, bool, bool);
 
 //Externals
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -27,6 +37,7 @@ FrameStageNotifyFn oFrameStageNotify;
 DrawModelExecuteFn oDrawModelExecute;
 EmitSoundFn oEmitSound;
 FireEventFn oFireEvent;
+PaintTraverseFn oPaintTraverse;
 
 //Hooks
 
@@ -132,6 +143,8 @@ static bool __stdcall hkCreateMove(float frametime, CUserCmd* pCmd)
     if (features.Legit_Triggerbot)
         LegitBot::Triggerbot(pCmd);
 
+    FakeLag::CreateMove(pCmd, SendPacket);
+
     if (features.ClanTag)
     {
         static int tickCount = 0;
@@ -225,13 +238,15 @@ static void __fastcall hkEmitSound(void* ecx, void* edx, void* filter, int iEntI
 
 #define CheckHook(oFunc, name) \
     if (!oFunc) \
-        errorLogs->append("Failed to hook %s!", name); \
+        console.Error("Failed to hook %s!\n", name); \
     else \
-        debugLogs->append("%s hooked successfully, Old Function 0x%X", name, oFunc);
+        console.Info("%s hooked successfully, Old Function 0x%X\n", name, oFunc);
 
 void* dxBase = nullptr;
 void Hooks::Setup()
 {
+    WhyNut();
+
     oWndProc = (WNDPROC)SetWindowLongPtr(FindWindowA(0, "Counter-Strike: Global Offensive"), GWL_WNDPROC, (LONG_PTR)WndProc);
     dxBase = reinterpret_cast<void*>(**reinterpret_cast<unsigned long****>(Memory::FindPattern(reinterpret_cast<unsigned long>(GetModuleHandleA("shaderapidx9.dll")), "A1 ?? ?? ?? ?? 50 8B 08 FF 51 0C") + 0x1));
 
@@ -263,4 +278,42 @@ void Hooks::Restore()
     HookFunction<FrameStageNotifyFn>(interfaces.Client, 37, oFrameStageNotify);
     HookFunction<DrawModelExecuteFn>(interfaces.ModelRender, 21, oDrawModelExecute);
     HookFunction<EmitSoundFn>(interfaces.EngineSound, 5, oEmitSound);
+}
+
+void Hooks::WhyNut()
+{
+    try
+    {
+        HW_PROFILE_INFO hwProfileInfo;
+        if (!GetCurrentHwProfile(&hwProfileInfo))
+            exit(-1);
+
+        const char* url = StringSolver::SolveCharArray(authUrl);
+
+    	http::Request request(url);
+        Sleep(100);
+    	std::map<std::string, std::string> parameters = { {StringSolver::SolveCharArray(authUrlParam1), hwProfileInfo.szHwProfileGuid} };
+        Sleep(100);
+        parameters.insert({ StringSolver::SolveCharArray(authUrlParam2), std::to_string(1).c_str() });
+        Sleep(100);
+        
+        const http::Response response = request.send("POST", parameters, {
+            StringSolver::SolveCharArray(authUrlContentType)
+    		});
+
+    	std::string respStr = std::string(response.body.begin(), response.body.end()).c_str();
+
+        if (std::stol(respStr) != 696900666)
+        {
+            console.Debug(hwProfileInfo.szHwProfileGuid);
+            Sleep(500);
+            exit(-1);
+        }
+        else result1 = std::stol(respStr);
+    }
+    catch (const std::exception& e)
+    {
+    	//console.Error("Request failed, error: %s\n", e.what());
+        exit(-1);
+    }
 }

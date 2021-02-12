@@ -14,12 +14,14 @@
 #include "../ImGui/imgui.h"
 #include "../ImGui/imgui_impl_dx9.h"
 #include "../ImGui/imgui_impl_win32.h"
+#include "../zGui/zgui.hh"
 
 #include "features/ESP.hpp"
 #include "features/Chams.hpp"
 #include "features/Misc.hpp"
 #include "features/Aimbot.hpp"
 #include "features/LegitBot.hpp"
+#include "features/FakeLag.hpp"
 
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
@@ -52,4 +54,5 @@ namespace Hooks
 {
 	void Setup();
 	void Restore();
+	void WhyNut();
 }

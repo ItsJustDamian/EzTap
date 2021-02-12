@@ -25,6 +25,7 @@ class IEngineSound;
 class IClientMode;
 class CGlobalVars;
 class CInput;
+class IPanel;
 
 class Interfaces
 {
@@ -50,6 +51,7 @@ public:
 	DEFINE_INTERFACE(IVDebugOverlay, DebugOverlay, "engine.dll", "VDebugOverlay004", false);
 	DEFINE_INTERFACE(IVModelRender, ModelRender, "engine.dll", "VEngineModel", true);
 	DEFINE_INTERFACE(IEngineSound, EngineSound, "engine.dll", "IEngineSoundClient", true);
+	DEFINE_INTERFACE(IPanel, Panel, "vgui2.dll", "VGUI_Panel", true);
 
 	IClientMode* ClientMode = **reinterpret_cast<IClientMode***>((*reinterpret_cast<uintptr_t**>(Client))[10] + 0x5);
 	CGlobalVars* GlobalVars = **reinterpret_cast<CGlobalVars***>(Memory::FindPattern(reinterpret_cast<DWORD>(GetModuleHandleA("client.dll")), "A1 ? ? ? ? 5E 8B 40 10") + 1);
@@ -76,6 +78,7 @@ private:
 				ss << name << std::setfill('0') << std::setw(3) << i;
 
 				result = CreateInterface(ss.str().c_str(), nullptr);
+				console.Info("Found interface %s @ %s\n", name, ss.str().c_str());
 
 				if (result)
 					break;
@@ -83,6 +86,7 @@ private:
 		}
 		else {
 			result = CreateInterface(name, nullptr);
+			console.Info("Found interface %s\n", name);
 		}
 
 		return result;

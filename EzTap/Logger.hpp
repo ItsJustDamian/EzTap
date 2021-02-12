@@ -48,6 +48,29 @@ public:
 		lFile << "[" << s << "]: " << buffer << "\n";
 	}
 
+	void sappend(const char* fmt, ...)
+	{
+		char buffer[2048];
+
+		va_list _ArgList;
+		__crt_va_start(_ArgList, fmt);
+
+		#pragma warning(push)
+		#pragma warning(disable: 4996)
+		_vsprintf_l(buffer, fmt, NULL, _ArgList);
+		#pragma warning(pop)
+
+		__crt_va_end(_ArgList);
+
+
+		char s[256];
+		time_t t = time(NULL);
+		struct tm* p = localtime(&t);
+		strftime(s, 256, "%d-%m-%Y - %R", p);
+
+		lFile << "[" << s << "]: " << buffer;
+	}
+
 private:
 	std::fstream lFile;
 	const char* lFilename = nullptr;

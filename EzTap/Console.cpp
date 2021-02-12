@@ -93,6 +93,8 @@ void Console::Write(const char * fmt, ...)
 
 	__crt_va_end(_ArgList);
 
+	SetConsoleTextAttribute(consoleHandle, 10); //Set to green
+	std::cout << "<OK> ";
 	SetConsoleTextAttribute(consoleHandle, 7); //Set to white
 	std::cout << buffer;
 }
@@ -114,10 +116,12 @@ void Console::Info(const char * fmt, ...)
 
 	__crt_va_end(_ArgList);
 
+	SetConsoleTextAttribute(consoleHandle, 10); //Set to green
+	std::cout << "<OK> ";
 	SetConsoleTextAttribute(consoleHandle, 7);
-	std::cout << "[x] " << buffer;
+	std::cout << buffer;
 
-	logs->append(buffer);
+	logs->sappend(buffer);
 }
 
 void Console::Warning(const char * fmt, ...)
@@ -138,11 +142,11 @@ void Console::Warning(const char * fmt, ...)
 	__crt_va_end(_ArgList);
 
 	SetConsoleTextAttribute(consoleHandle, 14);
-	std::cout << "[x] ";
+	std::cout << "<WARNING> ";
 	SetConsoleTextAttribute(consoleHandle, 7);
 	std::cout << buffer;
 
-	logs->append(buffer);
+	logs->sappend(buffer);
 }
 
 void Console::Error(const char * fmt, ...)
@@ -163,11 +167,11 @@ void Console::Error(const char * fmt, ...)
 	__crt_va_end(_ArgList);
 
 	SetConsoleTextAttribute(consoleHandle, 4);
-	std::cout << "[x] ";
+	std::cout << "<ERROR> ";
 	SetConsoleTextAttribute(consoleHandle, 7);
 	std::cout << buffer;
 
-	errorLogs->append(buffer);
+	errorLogs->sappend(buffer);
 }
 
 void Console::Debug(const char * fmt, ...)
@@ -188,9 +192,9 @@ void Console::Debug(const char * fmt, ...)
 	__crt_va_end(_ArgList);
 
 	SetConsoleTextAttribute(consoleHandle, 5);
-	std::cout << "[x] ";
+	std::cout << "<DEBUG> ";
 	SetConsoleTextAttribute(consoleHandle, 7);
 	std::cout << buffer;
 
-	debugLogs->append(buffer);
+	debugLogs->sappend(buffer);
 }

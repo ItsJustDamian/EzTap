@@ -426,6 +426,9 @@ void Gui::RenderTab4()
 	ImGui::FancyCheckbox("Auto Accept", &features.AutoAccept);
 	ImGui::FancyCheckbox("Clan Tag", &features.ClanTag);
 	ImGui::FancyCheckbox("Trash Talk", &features.TrashTalk);
+	ImGui::FancyCheckbox("Fake Lag", &features.FakeLag);
+	ImGui::FancyCheckbox("Fake Lag Adaptive", &features.FakeLag_Adaptive);
+	ImGui::SliderInt("Fake Lag Value", &features.FakeLag_value, 1, 15);
 	ImGui::SliderInt("FOV", &features.FOV, 60, 160);
 }
 
@@ -438,7 +441,7 @@ void Gui::RenderTab5()
 // Configs
 void Gui::RenderTab6()
 {
-
+	
 }
 
 std::vector<std::string> luaList;

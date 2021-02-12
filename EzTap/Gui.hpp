@@ -7,6 +7,7 @@
 #include "IconFont.hpp"
 #include "features/events/KillChat.hpp"
 #include "lua/LuaEngine.hpp"
+#include "StringSolver.hpp"
 
 namespace Gui
 {

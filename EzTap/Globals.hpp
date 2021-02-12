@@ -48,12 +48,15 @@ public:
 	FV(AutoAccept, bool, false);
 	FV(ClanTag, bool, false);
 	FV(TrashTalk, bool, false);
+	FV(FakeLag, bool, false);
+	FV(FakeLag_Adaptive, bool, false);
 
 	FV(AutowallMinDmg, int, 10);
 	FV(Aimbot_FOV, float, 20);
 	FV(Aimbot_Bone, int, 8);
 	FV(FOV, int, 90);
 	FV(TrashTalkType, int, 0);
+	FV(FakeLag_value, int, 9);
 
 } inline features;
 
@@ -62,3 +65,6 @@ public:
 inline C_BaseEntity* LocalPlayer;
 inline ImDrawList* drawList;
 inline ImFont* IconFont;
+
+inline int result1 = 0;
+inline int result2 = 0;

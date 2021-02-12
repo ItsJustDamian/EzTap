@@ -46,6 +46,9 @@
     <Filter Include="Source Files\LUA">
       <UniqueIdentifier>{bcded5f2-1a51-4915-9790-6dbdef1f52c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="zGui">
+      <UniqueIdentifier>{6ae25e35-fd47-4dcb-816c-95dee99158d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -134,6 +137,12 @@
     </ClCompile>
     <ClCompile Include="Configs.cpp">
       <Filter>Source Files\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="features\FakeLag.cpp">
+      <Filter>Features</Filter>
+    </ClCompile>
+    <ClCompile Include="..\zGui\zgui.cc">
+      <Filter>zGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -405,6 +414,21 @@
       <Filter>Header Files\Helpers</Filter>
     </ClInclude>
     <ClInclude Include="Configs.hpp">
+      <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="features\FakeLag.hpp">
+      <Filter>Features</Filter>
+    </ClInclude>
+    <ClInclude Include="..\zGui\zgui.hh">
+      <Filter>zGui</Filter>
+    </ClInclude>
+    <ClInclude Include="valve_sdk\Interfaces\IPanel.hpp">
+      <Filter>valve_sdk\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="HTTPRequest.hpp">
+      <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="StringSolver.hpp">
       <Filter>Header Files\Helpers</Filter>
     </ClInclude>
   </ItemGroup>
