@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <chrono>
 #include "Interfaces.hpp"
 #include "Console.hpp"
 #include "lua/GameEvents.hpp"
@@ -15,6 +16,8 @@ std::vector<char> ANTIDEBUGSTR2 = { 'E','x','i','t',' ','p','r','o','c','e','s',
 
 DWORD WINAPI MainThread(LPVOID lpParam)
 {
+	auto initBegin = std::chrono::high_resolution_clock::now();
+
 	console.Init("EzTap", true);
 
 	logs->append("Initializing cheat...");
@@ -85,15 +88,24 @@ DWORD WINAPI MainThread(LPVOID lpParam)
 	Sleep(1000);
 
 	g_pLuaEngine->ExecuteString("print = function(...) local Engine = EzTap.Interfaces:GetEngine() Engine:ExecuteCmd('echo ' .. ...) end");
+	//g_pLuaEngine->ExecuteString("print = function(...) EzTap.Logs.Info(...) end");
 
 	console.Info("Registerd lua objects successfully!\n");
 	logs->append("Cheat ready for use!");
+
+	auto initEnd = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(initEnd - initBegin).count();
+	console.Write("Initializiation took %ldms!\n", duration);
 
 	//delete logs;
 
 	while (true)
 	{
-		
+		/*if (IsDebuggerPresent())
+		{
+			MessageBoxA(NULL, StringSolver::SolveCharArray(ANTIDEBUGSTR), "", 0);
+			exit(-1);
+		}*/
 		Sleep(1000);
 	}
 
@@ -106,11 +118,11 @@ BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 {
 	if (dwReason == DLL_PROCESS_ATTACH)
 	{
-		if (IsDebuggerPresent())
+		/*if (IsDebuggerPresent())
 		{
 			MessageBoxA(NULL, StringSolver::SolveCharArray(ANTIDEBUGSTR), "", 0);
 			exit(-1);
-		}
+		}*/
 
 		HANDLE handle = CreateThread(NULL, NULL, MainThread, hModule, NULL, NULL);
 

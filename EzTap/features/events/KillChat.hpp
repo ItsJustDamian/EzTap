@@ -23,7 +23,6 @@ static std::vector<std::string> funnyTrashTalk = {
 	"ez katka 8)",
 	"Yo mama so fat when she plays Overpass, you can shoot her on Mirage.",
 	"I PLAY WITH A RACING WHEEL...",
-	"now ᴘʟᴀʏɪɴɢ: Who asked (Feat: Nobody did)\n────────⚪─── ◄◄⠀▐▐⠀►► 𝟸:𝟷𝟾 / 𝟹:𝟻𝟼⠀───○ 🔊",
 	"bvfndsubmdsj vudsa,vsjnfn ., .,.,\nSORRY JUST CLEANING THE JIZZ OF MY KEYBOARD!!",
 	"How did i get here from watching dog porn? o_O",
 	"Cheer up, your small dick isnt noticealbe under ur badness.",
@@ -96,7 +95,6 @@ static std::vector<std::string> negativeTrashTalk = {
 	"Why can't I take control of this bot?",
 	"You make NiP look good.",
 	"I'd say uninstall but you'd probably miss that too",
-	"Сука блять, иди нахуй пидор бля",
 	"Get the bomb, at least you will carry something this game.",
 	"You're going to give me an aneurysm.",
 	"The only thing you can throw are rounds.",
@@ -168,7 +166,7 @@ static std::vector<std::string> edgyTrashTalk = {
 	"You suck so much dick, that you turn your entire team gay."
 };
 static std::vector<std::string> darkTrashTalk = {
-	"CRY HERE ---> \__/ <--- Africans need water.",
+	"CRY HERE ---> \\__/ <--- Africans need water.",
 	"You look like you have parkinsons you shake and bake fuck-knuckle.",
 	"You sound like your parents beat each other in front of you.",
 	"Don't be a loser, buy a rope and hang yourself.",

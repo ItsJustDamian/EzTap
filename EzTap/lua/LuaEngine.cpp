@@ -9,6 +9,7 @@ lua_State* LuaEngine::L()
 }
 
 ExportedInterfaces gl_Interfaces;
+ExportedLogs gl_Logs;
 void LuaEngine::RegisterLuaObjects()
 {
 	CreateDirectoryA("EzTap", NULL);
@@ -40,6 +41,7 @@ void LuaEngine::RegisterLuaObjects()
 		.addFunction("WorldToScreen", &ExportedEngine::WorldToScreen)
 		.addFunction("GetPlayerIDByUserID", &ExportedEngine::GetPlayerIDByUserID)
 		.addFunction("GetPlayerInfo", &ExportedEngine::GetPlayerInfo)
+		.addFunction("SetViewAngles", &ExportedEngine::SetViewAngles)
 		.endClass()
 
 		.beginClass<ExportedEntity>("PlayerClass")
@@ -127,11 +129,40 @@ void LuaEngine::RegisterLuaObjects()
 		.addFunction("isHLTV", &ExportedPlayerInfo::isHLTV)
 		.endClass()
 
+		.beginClass<ExportedMaterialSystem>("MaterialInterface")
+		.addFunction("CreateMaterial", &ExportedMaterialSystem::CreateMaterial)
+		.addFunction("FindMaterial", &ExportedMaterialSystem::FindMaterial)
+		.endClass()
+
+		.beginClass<ExportedLogs>("LogsClass")
+		.addFunction("Info", &ExportedLogs::Info)
+		.addFunction("Ok", &ExportedLogs::Ok)
+		.addFunction("Error", &ExportedLogs::Error)
+		.addFunction("Warning", &ExportedLogs::Warning)
+		.endClass()
+
 		.beginClass<LUAHooks>("HooksClass")
 		.addFunction("RegisterCallback", &LUAHooks::RegisterCallback)
 		.addFunction("ExecuteAllCallbacks", &LUAHooks::ExecuteAllCallbacks)
 		.addFunction("TerminateCallback", &LUAHooks::TerminateCallback)
 		.endClass()
+
+		.beginClass<ExportedUserCmd>("UserCmdClass")
+		.addFunction("Get_command_number", &ExportedUserCmd::Get_command_number)
+		.addFunction("Get_tick_count", &ExportedUserCmd::Get_tick_count)
+		.addFunction("Get_ViewAngles", &ExportedUserCmd::Get_ViewAngles)
+		.addFunction("Get_AimDirection", &ExportedUserCmd::Get_AimDirection)
+		.addFunction("Get_forwardMove", &ExportedUserCmd::Get_forwardMove)
+		.addFunction("Get_sideMove", &ExportedUserCmd::Get_sideMove)
+		.addFunction("Get_upMove", &ExportedUserCmd::Get_upMove)
+		.addFunction("Get_buttons", &ExportedUserCmd::Get_buttons)
+		.addFunction("Get_HeadAngles", &ExportedUserCmd::Get_HeadAngles)
+		.addFunction("Get_HeadOffset", &ExportedUserCmd::Get_HeadOffset)
+		.addFunction("Set_ViewAngles", &ExportedUserCmd::Set_ViewAngles)
+		.addFunction("Set_AimDirection", &ExportedUserCmd::Set_AimDirection)
+		.endClass()
+
+		.addVariable("Logs", &gl_Logs, false)
 
 		.addVariable("Interfaces", &gl_Interfaces, false)
 		.addVariable("CurTime", &interfaces.GlobalVars->curtime, false)

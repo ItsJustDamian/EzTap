@@ -93,8 +93,8 @@ void Console::Write(const char * fmt, ...)
 
 	__crt_va_end(_ArgList);
 
-	SetConsoleTextAttribute(consoleHandle, 10); //Set to green
-	std::cout << "<OK> ";
+	SetConsoleTextAttribute(consoleHandle, 7); //Set to white
+	std::cout << "<INFO> ";
 	SetConsoleTextAttribute(consoleHandle, 7); //Set to white
 	std::cout << buffer;
 }

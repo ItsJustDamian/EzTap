@@ -7,6 +7,8 @@
 #include "../ImGui/imgui_impl_win32.h"
 #include "lua/ExportedFunctions.hpp"
 
+#include <chrono>
+
 class C_BaseEntity;
 
 namespace Modules
@@ -50,6 +52,7 @@ public:
 	FV(TrashTalk, bool, false);
 	FV(FakeLag, bool, false);
 	FV(FakeLag_Adaptive, bool, false);
+	FV(AntiAim, bool, false);
 
 	FV(AutowallMinDmg, int, 10);
 	FV(Aimbot_FOV, float, 20);
@@ -68,3 +71,5 @@ inline ImFont* IconFont;
 
 inline int result1 = 0;
 inline int result2 = 0;
+
+inline bool MELikEYCheeSE = false;

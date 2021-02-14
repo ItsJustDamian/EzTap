@@ -16,12 +16,12 @@ void color()
 	style.Colors[ImGuiCol_TitleBgActive] = ImVec4(0.15f, 0.60f, 0.78f, 1.00f);
 	style.Colors[ImGuiCol_MenuBarBg] = ImVec4(0.35f, 0.35f, 0.35f, 1.00f);
 	style.Colors[ImGuiCol_ScrollbarBg] = ImVec4(0.13f, 0.13f, 0.13f, 1.00f);
-	style.Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.09f, 0.15f, 0.16f, 1.00f);
-	style.Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.15f, 0.60f, 0.78f, 0.78f);
-	style.Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.15f, 0.60f, 0.78f, 1.00f);
-	style.Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.15f, 0.60f, 0.78f, 1.00f);
-	style.Colors[ImGuiCol_Button] = ImVec4(0.24f, 0.40f, 0.95f, 1.00f);
-	style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.24f, 0.40f, 0.95f, 0.59f);
+	style.Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.8f, 0.1f, 0.81f, 1.00f);
+	style.Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.8f, 0.1f, 0.81f, 0.78f);
+	style.Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.8f, 0.1f, 0.81f, 1.00f);
+	style.Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.8f, 0.1f, 0.81f, 1.00f);
+	style.Colors[ImGuiCol_Button] = ImVec4(0.8f, 0.1f, 0.81f, 1.00f);
+	style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.8f, 0.3f, 0.81f, 0.59f);
 	style.Colors[ImGuiCol_ButtonActive] = ImVec4(0.39f, 0.39f, 0.39f, 1.00f);
 	style.Colors[ImGuiCol_Header] = ImVec4(0.24f, 0.40f, 0.95f, 1.00f);
 	style.Colors[ImGuiCol_HeaderHovered] = ImVec4(0.24f, 0.40f, 0.95f, 0.59f);
@@ -68,12 +68,12 @@ void Gui::Render()
 	style.Colors[ImGuiCol_TitleBgActive] = ImVec4(0.15f, 0.60f, 0.78f, 1.00f);
 	style.Colors[ImGuiCol_MenuBarBg] = ImVec4(0.35f, 0.35f, 0.35f, 1.00f);
 	style.Colors[ImGuiCol_ScrollbarBg] = ImVec4(0.13f, 0.13f, 0.13f, 1.00f);
-	style.Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.09f, 0.15f, 0.16f, 1.00f);
-	style.Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.15f, 0.60f, 0.78f, 0.78f);
-	style.Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.15f, 0.60f, 0.78f, 1.00f);
-	style.Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.15f, 0.60f, 0.78f, 1.00f);
-	style.Colors[ImGuiCol_Button] = ImVec4(0.24f, 0.40f, 0.95f, 1.00f);
-	style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.24f, 0.40f, 0.95f, 0.59f);
+	style.Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.8f, 0.1f, 0.81f, 1.00f);
+	style.Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.8f, 0.1f, 0.81f, 0.78f);
+	style.Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.8f, 0.1f, 0.81f, 1.00f);
+	style.Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.8f, 0.1f, 0.81f, 1.00f);
+	style.Colors[ImGuiCol_Button] = ImVec4(0.8f, 0.1f, 0.81f, 1.00f);
+	style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.8f, 0.3f, 0.81f, 0.59f);
 	style.Colors[ImGuiCol_ButtonActive] = ImVec4(0.39f, 0.39f, 0.39f, 1.00f);
 	style.Colors[ImGuiCol_Header] = ImVec4(0.24f, 0.40f, 0.95f, 1.00f);
 	style.Colors[ImGuiCol_HeaderHovered] = ImVec4(0.24f, 0.40f, 0.95f, 0.59f);
@@ -325,12 +325,13 @@ void Gui::Render()
 		style.Colors[ImGuiCol_TitleBgActive] = ImVec4(0.15f, 0.60f, 0.78f, 1.00f);
 		style.Colors[ImGuiCol_MenuBarBg] = ImVec4(0.35f, 0.35f, 0.35f, 1.00f);
 		style.Colors[ImGuiCol_ScrollbarBg] = ImVec4(0.13f, 0.13f, 0.13f, 1.00f);
-		style.Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.09f, 0.15f, 0.16f, 1.00f);
-		style.Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.15f, 0.60f, 0.78f, 0.78f);
-		style.Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.15f, 0.60f, 0.78f, 1.00f);
-		style.Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.15f, 0.60f, 0.78f, 1.00f);
-		style.Colors[ImGuiCol_Button] = ImVec4(0.24f, 0.40f, 0.95f, 1.00f);
-		style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.24f, 0.40f, 0.95f, 0.59f);
+		//style.Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.8f, 0.1f, 0.81f, 1.00f);
+		style.Colors[ImGuiCol_ScrollbarGrab] = ImVec4(1.f, 0.f, 0.f, 1.00f);
+		style.Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.8f, 0.1f, 0.81f, 0.78f);
+		style.Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.8f, 0.1f, 0.81f, 1.00f);
+		style.Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.8f, 0.1f, 0.81f, 1.00f);
+		style.Colors[ImGuiCol_Button] = ImVec4(0.8f, 0.1f, 0.81f, 1.00f);
+		style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.8f, 0.3f, 0.81f, 0.59f);
 		style.Colors[ImGuiCol_ButtonActive] = ImVec4(0.39f, 0.39f, 0.39f, 1.00f);
 		style.Colors[ImGuiCol_Header] = ImVec4(0.24f, 0.40f, 0.95f, 1.00f);
 		style.Colors[ImGuiCol_HeaderHovered] = ImVec4(0.24f, 0.40f, 0.95f, 0.59f);
@@ -349,9 +350,9 @@ void Gui::Render()
 	}
 	ImGui::End();
 
-	style.Colors[ImGuiCol_WindowBg] = ImColor(30, 30, 30, 255);
-	ImGui::SetNextWindowPos(ImVec2(pos.x - 4, pos.y - 4));
-	ImGui::SetNextWindowSize(ImVec2(848, 568));
+	style.Colors[ImGuiCol_WindowBg] = ImColor(204, 27, 207, 255); //ImColor(30, 30, 30, 255);
+	ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y - 6));
+	ImGui::SetNextWindowSize(ImVec2(840, 564));
 	ImGui::Begin("borderr", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBringToFrontOnFocus);
 	{
 
@@ -388,6 +389,7 @@ void Gui::RenderTab1()
 	ImGui::FancyCheckbox("Auto Fire", &features.Aimbot_AutoFire);
 	ImGui::FancyCheckbox("Auto Scope", &features.Aimbot_AutoScope);
 	ImGui::FancyCheckbox("Silent", &features.Aimbot_Silent);
+	ImGui::FancyCheckbox("Anti Aim", &features.AntiAim);
 	ImGui::SliderFloat("Aim FOV", &features.Aimbot_FOV, 1, 180);
 	ImGui::SliderInt("Min Damage", &features.AutowallMinDmg, 1, 200);
 }

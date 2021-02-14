@@ -7,6 +7,7 @@
 #include "Memory.hpp"
 #include "Render.hpp"
 #include "Gui.hpp"
+#include "LoginGui.hpp"
 #include "Utils.hpp"
 #include "lua/LuaEngine.hpp"
 #include "Logger.hpp"
@@ -21,6 +22,7 @@
 #include "features/Misc.hpp"
 #include "features/Aimbot.hpp"
 #include "features/LegitBot.hpp"
+#include "features/RageBot.hpp"
 #include "features/FakeLag.hpp"
 
 #pragma comment(lib, "d3d9.lib")

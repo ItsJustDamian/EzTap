@@ -37,7 +37,6 @@ FrameStageNotifyFn oFrameStageNotify;
 DrawModelExecuteFn oDrawModelExecute;
 EmitSoundFn oEmitSound;
 FireEventFn oFireEvent;
-PaintTraverseFn oPaintTraverse;
 
 //Hooks
 
@@ -63,16 +62,23 @@ static HRESULT __stdcall hkEndScene(IDirect3DDevice9* pDevice)
         IconFont = io.Fonts->AddFontFromMemoryTTF(badcache::fileBytes, 46.f, 46.f);
     }
 
-    if (GetAsyncKeyState(VK_INSERT) & 1)
-        menuOpen = !menuOpen;
+    if(menuOpen && interfaces.Engine->isIngame() && !oLockCursor)
+        oLockCursor = HookFunction<LockCursorFn>(interfaces.Surface, 67, hkLockCursor);
 
     ImGui_ImplDX9_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
     drawList = ImGui::GetBackgroundDrawList();
 
+    if (!MELikEYCheeSE)
+    {
+        LoginGui::Render();
+    }else {
+
     if (menuOpen)
         Gui::Render();
+
+    }
 
     Gui::Watermark();
 
@@ -97,7 +103,10 @@ static long __stdcall hkReset(IDirect3DDevice9* device, D3DPRESENT_PARAMETERS* p
 
 static LRESULT __stdcall WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) // For ImGui window handle
 {
-    if (menuOpen)
+    if (uMsg == WM_KEYUP && wParam == VK_INSERT && MELikEYCheeSE)
+        menuOpen ^= true;
+
+    if (menuOpen || !MELikEYCheeSE)
     {
         ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
         return true;
@@ -105,7 +114,6 @@ static LRESULT __stdcall WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 
     return CallWindowProc(oWndProc, hWnd, uMsg, wParam, lParam);
 }
-
 
 static void __stdcall hkOverrideView(CViewSetup* setup)
 {
@@ -154,7 +162,12 @@ static bool __stdcall hkCreateMove(float frametime, CUserCmd* pCmd)
         }
     }
 
-    CMHooks->ExecuteAllCallbacks();
+    if (features.AntiAim)
+        RageBot::AntiAim(pCmd, SendPacket);
+
+    //CMHooks->ExecuteAllCallbacks();
+
+    LUAHooksExecWithArgs(CMHooks, (ExportedUserCmd(pCmd)));
 
     return false; // Send to server, but not update on client
 }
@@ -198,7 +211,7 @@ static void __stdcall hkFrameStageNotify(ClientFrameStage_t curStage)
 
 static void __fastcall hkDrawModelExecute(void* _this, int edx, IMatRenderContext* ctx, const DrawModelState_t& state, const ModelRenderInfo_t& pInfo, matrix3x4* pCustomBoneToWorld)
 {
-    if(!LocalPlayer || !interfaces.Engine->isIngame() || !LocalPlayer->isValid())
+    if(!interfaces.Engine->isIngame() || !LocalPlayer || !LocalPlayer->isValid())
         return oDrawModelExecute(_this, edx, ctx, state, pInfo, pCustomBoneToWorld);
 
     if (interfaces.ModelRender->IsForcedMaterialOverride() && !strstr(pInfo.pModel->szName, "arms") && !strstr(pInfo.pModel->szName, "weapons/v_"))
@@ -252,12 +265,11 @@ void Hooks::Setup()
 
     oEndScene = HookFunction<EndSceneFn>(dxBase, 42, hkEndScene);   
     oReset = HookFunction<ResetFn>(dxBase, 16, hkReset);
-    oCreateMove = HookFunction<CreateMoveFn>(interfaces.ClientMode, 24, hkCreateMove);
     oOverrideView = HookFunction<OverrideViewFn>(interfaces.ClientMode, 18, hkOverrideView);
     oFrameStageNotify = HookFunction<FrameStageNotifyFn>(interfaces.Client, 37, hkFrameStageNotify);
     oDrawModelExecute = HookFunction<DrawModelExecuteFn>(interfaces.ModelRender, 21, hkDrawModelExecute);
     oEmitSound = HookFunction<EmitSoundFn>(interfaces.EngineSound, 5, hkEmitSound);
-    //oFireEvent = HookFunction<FireEventFn>(interfaces.GameEventManager, 8, hkFireEvent);
+    oCreateMove = HookFunction<CreateMoveFn>(interfaces.ClientMode, 24, hkCreateMove);
     //oLockCursor = HookFunction<LockCursorFn>(interfaces.Surface, 67, hkLockCursor);
 
     CheckHook(oEndScene,"EndScene");

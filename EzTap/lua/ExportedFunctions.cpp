@@ -36,6 +36,12 @@ ExportedCvar ExportedInterfaces::GetCvar()
 	return cvar;
 }
 
+ExportedMaterialSystem ExportedInterfaces::GetMaterialSystem()
+{
+	static ExportedMaterialSystem matSys(interfaces.MaterialSystem);
+	return matSys;
+}
+
 void ExportedEngine::ExecuteCommand(const char* str)
 {
 	Engine->executeClientCmd(str);
@@ -64,6 +70,14 @@ int ExportedEngine::GetMaxClients()
 bool ExportedEngine::IsInGame()
 {
 	return Engine->isIngame();
+}
+
+void ExportedEngine::SetViewAngles(float x, float y)
+{
+	static Vector vec;
+	vec = Vector(x, y, 0);
+	vec.Clamp();
+	interfaces.Engine->setViewAngles(&vec);
 }
 
 ExportedPlayerInfo ExportedEngine::GetPlayerInfo(int id)
@@ -453,4 +467,108 @@ const char* ExportedPlayerInfo::GetSteamID()
 bool ExportedPlayerInfo::isHLTV()
 {
 	return pInfo.ishltv;
+}
+
+IMaterial* ExportedMaterialSystem::CreateMaterial(const char* pMaterialName)
+{
+	return materialSystem->CreateMaterial(pMaterialName, nullptr);
+}
+
+IMaterial* ExportedMaterialSystem::FindMaterial(const char* pMaterialName, const char* pMaterialGroup)
+{
+	return materialSystem->FindMaterial(pMaterialName, pMaterialGroup);
+}
+
+void ExportedLogs::Info(const char * msg)
+{
+	static char buf[1024];
+	sprintf(buf, "<LUA> %s\n", msg);
+	console.Write(buf);
+}
+
+void ExportedLogs::Ok(const char* msg)
+{
+	static char buf[1024];
+	sprintf(buf, "<LUA> %s\n", msg);
+	console.Info(buf);
+}
+
+void ExportedLogs::Error(const char* msg)
+{
+	static char buf[1024];
+	sprintf(buf, "<LUA> %s\n", msg);
+	console.Error(buf);
+}
+
+void ExportedLogs::Warning(const char* msg)
+{
+	static char buf[1024];
+	sprintf(buf, "<LUA> %s\n", msg);
+	console.Warning(buf);
+}
+
+int ExportedUserCmd::Get_command_number()
+{
+	return pCmd->command_number;
+}
+
+int ExportedUserCmd::Get_tick_count()
+{
+	return pCmd->tick_count;
+}
+
+ExportedVector ExportedUserCmd::Get_ViewAngles()
+{
+	return ExportedVector(pCmd->viewangles);
+}
+
+ExportedVector ExportedUserCmd::Get_AimDirection()
+{
+	return ExportedVector(pCmd->aimdirection);
+}
+
+float ExportedUserCmd::Get_forwardMove()
+{
+	return pCmd->forwardmove;
+}
+
+float ExportedUserCmd::Get_sideMove()
+{
+	return pCmd->sidemove;
+}
+
+float ExportedUserCmd::Get_upMove()
+{
+	return pCmd->upmove;
+}
+
+int ExportedUserCmd::Get_buttons()
+{
+	return pCmd->buttons;
+}
+
+ExportedVector ExportedUserCmd::Get_HeadAngles()
+{
+	return ExportedVector(pCmd->headangles);
+}
+
+ExportedVector ExportedUserCmd::Get_HeadOffset()
+{
+	return ExportedVector(pCmd->headoffset);
+}
+
+void ExportedUserCmd::Set_ViewAngles(float x, float y)
+{
+	Vector vec = Vector(x, y, 0);
+	vec.Clamp();
+
+	pCmd->viewangles = vec;
+}
+
+void ExportedUserCmd::Set_AimDirection(float x, float y)
+{
+	Vector vec = Vector(x, y, 0);
+	vec.Clamp();
+
+	pCmd->aimdirection = vec;
 }

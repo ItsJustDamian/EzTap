@@ -91,7 +91,7 @@ float C_BaseEntity::GetBombTimer() noexcept
 
 bool C_BaseEntity::isValid() noexcept
 {
-	return (this && this->isPlayer() && this != LocalPlayer && this->oHealth() > 0 && !this->oIsDormant() && this->team() > 0);
+	return (this && this->isPlayer() && this->oHealth() > 0 && !this->oIsDormant() && this->team() > 0);
 }
 
 bool C_BaseEntity::isTeammate() noexcept

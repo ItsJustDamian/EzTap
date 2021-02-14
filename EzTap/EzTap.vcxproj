@@ -158,9 +158,11 @@
     <ClCompile Include="features\FakeLag.cpp" />
     <ClCompile Include="features\LegitBot.cpp" />
     <ClCompile Include="features\Misc.cpp" />
+    <ClCompile Include="features\RageBot.cpp" />
     <ClCompile Include="features\Resolver.cpp" />
     <ClCompile Include="Gui.cpp" />
     <ClCompile Include="Hooks.cpp" />
+    <ClCompile Include="LoginGui.cpp" />
     <ClCompile Include="lua\ExportedFunctions.cpp" />
     <ClCompile Include="lua\GameEvents.cpp" />
     <ClCompile Include="lua\LuaEngine.cpp" />
@@ -219,6 +221,7 @@
     <ClInclude Include="features\FakeLag.hpp" />
     <ClInclude Include="features\LegitBot.hpp" />
     <ClInclude Include="features\Misc.hpp" />
+    <ClInclude Include="features\RageBot.hpp" />
     <ClInclude Include="features\Resolver.hpp" />
     <ClInclude Include="Font.hpp" />
     <ClInclude Include="Globals.hpp" />
@@ -229,6 +232,7 @@
     <ClInclude Include="ini.h" />
     <ClInclude Include="Interfaces.hpp" />
     <ClInclude Include="Logger.hpp" />
+    <ClInclude Include="LoginGui.hpp" />
     <ClInclude Include="lua\ExportedFunctions.hpp" />
     <ClInclude Include="lua\GameEvents.hpp" />
     <ClInclude Include="lua\LuaEngine.hpp" />

@@ -14,6 +14,8 @@ class ExportedGameEvent;
 class ExportedConvar;
 class ExportedCvar;
 class ExportedPlayerInfo;
+class ExportedMaterialSystem;
+class ExportedUserCmd;
 
 class IEngineClient;
 class IClientEntityList;
@@ -22,6 +24,9 @@ class IGameUI;
 class IGameEvent;
 class ICvar;
 class ConVar;
+class IMaterialSystem;
+class IMaterial;
+struct CUserCmd;
 
 struct playerInfo
 {
@@ -54,6 +59,7 @@ public:
 	ExportedClientEntityList GetClientEntityList();
 	ExportedGameUI GetGameUI();
 	ExportedCvar GetCvar();
+	ExportedMaterialSystem GetMaterialSystem();
 };
 
 /* EXPORTED ENGINE */
@@ -68,6 +74,7 @@ public:
 	int GetPlayerIDByUserID(int id);
 	int GetMaxClients();
 	bool IsInGame();
+	void SetViewAngles(float x, float y);
 
 	ExportedPlayerInfo GetPlayerInfo(int id);
 	//ExportedVector WorldToScreen(ExportedPlayer player, int boneID);
@@ -141,6 +148,20 @@ private:
 class ExportedVector
 {
 public:
+	ExportedVector() {}
+	ExportedVector(float ix, float iy, float iz)
+	{
+		x = ix;
+		y = iy;
+		z = iz;
+	}
+	ExportedVector(Vector vec)
+	{
+		x = vec.x;
+		y = vec.y;
+		z = vec.z;
+	}
+
 	int GetX();
 	int GetY();
 	int GetZ();
@@ -219,6 +240,48 @@ public:
 
 private:
 	playerInfo pInfo;
+};
+
+class ExportedMaterialSystem
+{
+public:
+	ExportedMaterialSystem(IMaterialSystem* matSystem) : materialSystem(matSystem) {};
+	IMaterial* CreateMaterial(const char* pMaterialName);
+	IMaterial* FindMaterial(const char * pMaterialName, const char * pMaterialGroup);
+
+private:
+	IMaterialSystem* materialSystem;
+};
+
+class ExportedLogs
+{
+public:
+	void Info(const char* msg);
+	void Ok(const char* msg);
+	void Error(const char* msg);
+	void Warning(const char* msg);
+};
+
+class ExportedUserCmd
+{
+public:
+	ExportedUserCmd(CUserCmd* uCmd) : pCmd(uCmd) {}
+
+	int Get_command_number();
+	int Get_tick_count();
+	ExportedVector Get_ViewAngles();
+	ExportedVector Get_AimDirection();
+	float Get_forwardMove();
+	float Get_sideMove();
+	float Get_upMove();
+	int Get_buttons();
+	ExportedVector Get_HeadAngles();
+	ExportedVector Get_HeadOffset();
+
+	void Set_ViewAngles(float x, float y);
+	void Set_AimDirection(float x, float y);
+private:
+	CUserCmd* pCmd;
 };
 
 #define LUAHooksExecWithArgs(hookClass, args) \
