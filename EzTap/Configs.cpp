@@ -1,8 +1,5 @@
 #include "Configs.hpp"
 
-#define ReadConfigObj(type, cid, sec, name) \
-	features.##cid = (type)cfg[sec][name];
-
 void Configs::ReadSettings()
 {
 	if (filename == nullptr)

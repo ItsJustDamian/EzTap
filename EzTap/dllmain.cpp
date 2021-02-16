@@ -99,7 +99,7 @@ DWORD WINAPI MainThread(LPVOID lpParam)
 
 	//delete logs;
 
-	while (true)
+	while (!features.EjectCheat)
 	{
 		/*if (IsDebuggerPresent())
 		{
@@ -108,6 +108,21 @@ DWORD WINAPI MainThread(LPVOID lpParam)
 		}*/
 		Sleep(1000);
 	}
+
+	/* cleanup Event Handlers */
+	delete kc;
+	delete ge;
+
+	/* cleanup lua engine */
+	delete g_pLuaEngine;
+	delete DXHooks;
+	delete CMHooks;
+	delete FSNHooks;
+	delete SNDHooks;
+	delete GMEHooks;
+
+	Hooks::Restore();
+	MH_Uninitialize();
 
 	console.Close();
 	FreeLibraryAndExitThread((HMODULE)lpParam, 0);

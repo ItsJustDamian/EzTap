@@ -34,6 +34,11 @@ void LoginGui::Render()
 			interfaces.GameUI->createCmdMsgBox("Welcome back!", "Yeah, not finished yet, im lazy :)");
 		}
 
+		ImGui::SameLine();
+
+		if (ImGui::Button("Fuck this"))
+			features.EjectCheat = true;
+
 		ImGui::End();
 	}
 }

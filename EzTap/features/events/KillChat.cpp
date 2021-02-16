@@ -11,7 +11,7 @@ KillChat::KillChat()
 KillChat::~KillChat()
 {
 	interfaces.GameEventManager->removeListener(this);
-	console.Debug("Unhooked player_death event!");
+	console.Debug("Unhooked player_death event!\n");
 }
 
 void KillChat::FireGameEvent(IGameEvent* pEvent)

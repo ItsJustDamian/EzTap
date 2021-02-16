@@ -432,6 +432,11 @@ void Gui::RenderTab4()
 	ImGui::FancyCheckbox("Fake Lag Adaptive", &features.FakeLag_Adaptive);
 	ImGui::SliderInt("Fake Lag Value", &features.FakeLag_value, 1, 15);
 	ImGui::SliderInt("FOV", &features.FOV, 60, 160);
+
+	ImGui::Spacing();
+
+	if (ImGui::Button("Eject Cheat"))
+		features.EjectCheat = true;
 }
 
 // Skin Changer

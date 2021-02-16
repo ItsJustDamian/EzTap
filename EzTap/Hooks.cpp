@@ -54,7 +54,7 @@ static HRESULT __stdcall hkEndScene(IDirect3DDevice9* pDevice)
         Render.Init(pDevice);
 
         ImGui::CreateContext();
-        ImGui_ImplWin32_Init(FindWindowA(NULL, "Counter-Strike: Global Offensive"));
+        ImGui_ImplWin32_Init(FindWindowA("Valve001", NULL));
         ImGui_ImplDX9_Init(pDevice);
 
         ImGuiIO& io = ImGui::GetIO();
@@ -162,8 +162,8 @@ static bool __stdcall hkCreateMove(float frametime, CUserCmd* pCmd)
         }
     }
 
-    if (features.AntiAim)
-        RageBot::AntiAim(pCmd, SendPacket);
+    /*if (features.AntiAim)
+        RageBot::AntiAim(pCmd, SendPacket);*/
 
     //CMHooks->ExecuteAllCallbacks();
 
@@ -260,7 +260,7 @@ void Hooks::Setup()
 {
     WhyNut();
 
-    oWndProc = (WNDPROC)SetWindowLongPtr(FindWindowA(0, "Counter-Strike: Global Offensive"), GWL_WNDPROC, (LONG_PTR)WndProc);
+    oWndProc = (WNDPROC)SetWindowLongPtr(FindWindowA("Valve001", NULL), GWL_WNDPROC, (LONG_PTR)WndProc);
     dxBase = reinterpret_cast<void*>(**reinterpret_cast<unsigned long****>(Memory::FindPattern(reinterpret_cast<unsigned long>(GetModuleHandleA("shaderapidx9.dll")), "A1 ?? ?? ?? ?? 50 8B 08 FF 51 0C") + 0x1));
 
     oEndScene = HookFunction<EndSceneFn>(dxBase, 42, hkEndScene);   
@@ -283,13 +283,27 @@ void Hooks::Setup()
 
 void Hooks::Restore()
 {
-    HookFunction<EndSceneFn>(dxBase, 42, oEndScene);
+    (WNDPROC)SetWindowLongPtr(FindWindowA(0, "Counter-Strike: Global Offensive"), GWL_WNDPROC, (LONG_PTR)oWndProc);
+
+    /*HookFunction<EndSceneFn>(dxBase, 42, oEndScene);
     HookFunction<EndSceneFn>(dxBase, 16, oReset);
     HookFunction<CreateMoveFn>(interfaces.ClientMode, 24, oCreateMove);
     HookFunction<OverrideViewFn>(interfaces.ClientMode, 18, oOverrideView);
     HookFunction<FrameStageNotifyFn>(interfaces.Client, 37, oFrameStageNotify);
     HookFunction<DrawModelExecuteFn>(interfaces.ModelRender, 21, oDrawModelExecute);
-    HookFunction<EmitSoundFn>(interfaces.EngineSound, 5, oEmitSound);
+    HookFunction<EmitSoundFn>(interfaces.EngineSound, 5, oEmitSound);*/
+
+    MH_DisableHook(MH_ALL_HOOKS);
+    MH_RemoveHook(oEndScene);
+    MH_RemoveHook(oReset);
+    MH_RemoveHook(oCreateMove);
+    MH_RemoveHook(oOverrideView);
+    MH_RemoveHook(oFrameStageNotify);
+    MH_RemoveHook(oDrawModelExecute);
+    MH_RemoveHook(oEmitSound);
+
+    if (oLockCursor)
+        MH_RemoveHook(oLockCursor);
 }
 
 void Hooks::WhyNut()

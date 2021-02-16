@@ -61,6 +61,8 @@ public:
 	FV(TrashTalkType, int, 0);
 	FV(FakeLag_value, int, 9);
 
+	FV(EjectCheat, bool, false);
+
 } inline features;
 
 #undef FV
