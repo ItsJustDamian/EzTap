@@ -73,12 +73,14 @@ void Aimbot::CreateMove(CUserCmd* pCmd)
     if (aimAngles.IsNan() || aimAngles.isNull())
         return;
 
+    aimAngles.Clamp();
+
     //Vector normalizedAngles = aimAngles.Normalized();
 
     if (features.Aimbot_Silent)
-        pCmd->viewangles = aimAngles.Clamped();
+        pCmd->viewangles = aimAngles;
     else
-        interfaces.Engine->setViewAngles(&aimAngles.Clamped());
+        interfaces.Engine->setViewAngles(&aimAngles);
 
     if (!features.Aimbot_AutoFire)
         return;

@@ -101,11 +101,11 @@ DWORD WINAPI MainThread(LPVOID lpParam)
 
 	while (!features.EjectCheat)
 	{
-		/*if (IsDebuggerPresent())
+		if (IsDebuggerPresent())
 		{
 			MessageBoxA(NULL, StringSolver::SolveCharArray(ANTIDEBUGSTR), "", 0);
 			exit(-1);
-		}*/
+		}
 		Sleep(1000);
 	}
 
@@ -133,11 +133,11 @@ BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 {
 	if (dwReason == DLL_PROCESS_ATTACH)
 	{
-		/*if (IsDebuggerPresent())
+		if (IsDebuggerPresent())
 		{
 			MessageBoxA(NULL, StringSolver::SolveCharArray(ANTIDEBUGSTR), "", 0);
 			exit(-1);
-		}*/
+		}
 
 		HANDLE handle = CreateThread(NULL, NULL, MainThread, hModule, NULL, NULL);
 
