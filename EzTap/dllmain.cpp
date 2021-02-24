@@ -11,9 +11,6 @@
 #include <WtsApi32.h>
 #pragma comment(lib, "WtsApi32.lib")
 
-std::vector<char> ANTIDEBUGSTR = { 'Y','i','k','e','s',',',' ','s','t','o','p',' ','d','e','b','u','g','g','i','n','g',' ','l','m','a','o' };
-std::vector<char> ANTIDEBUGSTR2 = { 'E','x','i','t',' ','p','r','o','c','e','s','s','e','s',':' };
-
 DWORD WINAPI MainThread(LPVOID lpParam)
 {
 	auto initBegin = std::chrono::high_resolution_clock::now();
@@ -26,35 +23,6 @@ DWORD WINAPI MainThread(LPVOID lpParam)
 	Modules::Engine = (DWORD)GetModuleHandleA("engine.dll");
 
 	console.Info("Modules {Client (0x%X), Engine (0x%X)} Loaded successfully!\n", Modules::Client, Modules::Engine);
-
-	std::stringstream ss;
-	ss << StringSolver::SolveCharArray(ANTIDEBUGSTR) << "\n" << StringSolver::SolveCharArray(ANTIDEBUGSTR2) << "\n";
-
-	WTS_PROCESS_INFO* pWPIs = NULL;
-	DWORD dwProcCount = 0;
-	int detectedCount = 0;
-
-	if (WTSEnumerateProcesses(WTS_CURRENT_SERVER_HANDLE, NULL, 1, &pWPIs, &dwProcCount))
-	{
-		for (DWORD i = 0; i < dwProcCount; i++)
-		{
-			std::string str = std::string(pWPIs[i].pProcessName);
-			std::transform(str.begin(), str.end(), str.begin(),
-				[](unsigned char c) { return std::tolower(c); });
-
-			if (strstr(str.c_str(), "debug"))
-			{
-				detectedCount++;
-				ss << pWPIs[i].pProcessName << "\n";
-			}
-		}
-	}
-
-	if (detectedCount > 0)
-	{
-		MessageBoxA(NULL, ss.str().c_str(), "", 0);
-		exit(-1);
-	}
 
 	logs->append("Read pointers and signatures...");
 
@@ -101,11 +69,6 @@ DWORD WINAPI MainThread(LPVOID lpParam)
 
 	while (!features.EjectCheat)
 	{
-		if (IsDebuggerPresent())
-		{
-			MessageBoxA(NULL, StringSolver::SolveCharArray(ANTIDEBUGSTR), "", 0);
-			exit(-1);
-		}
 		Sleep(1000);
 	}
 
@@ -133,12 +96,6 @@ BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 {
 	if (dwReason == DLL_PROCESS_ATTACH)
 	{
-		if (IsDebuggerPresent())
-		{
-			MessageBoxA(NULL, StringSolver::SolveCharArray(ANTIDEBUGSTR), "", 0);
-			exit(-1);
-		}
-
 		HANDLE handle = CreateThread(NULL, NULL, MainThread, hModule, NULL, NULL);
 
 		if (handle)

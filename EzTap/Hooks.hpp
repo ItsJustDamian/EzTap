@@ -56,5 +56,4 @@ namespace Hooks
 {
 	void Setup();
 	void Restore();
-	void WhyNut();
 }

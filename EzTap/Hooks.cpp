@@ -3,13 +3,6 @@
 #include "Font.hpp"
 #pragma comment(lib, "Ws2_32.lib")
 
-// Some auth stuff
-
-std::vector<char> authUrl = { 'h','t','t','p',':','/','/','e','z','t','a','p','.','o','n','l','i','n','e','/','a','u','t','h','.','p','h','p' };
-std::vector<char> authUrlParam1 = { 'h', 'w', 'i', 'd' };
-std::vector<char> authUrlParam2 = { 'c', 'h', 'e', 'c', 'k', 'T', 'y', 'p', 'e' };
-std::vector<char> authUrlContentType = { 'C','o','n','t','e','n','t','-','T','y','p','e',':',' ','a','p','p','l','i','c','a','t','i','o','n','/','x','-','w','w','w','-','f','o','r','m','-','u','r','l','e','n','c','o','d','e','d' };
-
 //Typedefs
 typedef HRESULT(__stdcall* EndSceneFn)(IDirect3DDevice9*);
 typedef long(__stdcall* ResetFn)(IDirect3DDevice9*, D3DPRESENT_PARAMETERS*);
@@ -258,8 +251,6 @@ static void __fastcall hkEmitSound(void* ecx, void* edx, void* filter, int iEntI
 void* dxBase = nullptr;
 void Hooks::Setup()
 {
-    WhyNut();
-
     oWndProc = (WNDPROC)SetWindowLongPtr(FindWindowA("Valve001", NULL), GWL_WNDPROC, (LONG_PTR)WndProc);
     dxBase = reinterpret_cast<void*>(**reinterpret_cast<unsigned long****>(Memory::FindPattern(reinterpret_cast<unsigned long>(GetModuleHandleA("shaderapidx9.dll")), "A1 ?? ?? ?? ?? 50 8B 08 FF 51 0C") + 0x1));
 
@@ -304,42 +295,4 @@ void Hooks::Restore()
 
     if (oLockCursor)
         MH_RemoveHook(oLockCursor);
-}
-
-void Hooks::WhyNut()
-{
-    try
-    {
-        HW_PROFILE_INFO hwProfileInfo;
-        if (!GetCurrentHwProfile(&hwProfileInfo))
-            exit(-1);
-
-        const char* url = StringSolver::SolveCharArray(authUrl);
-
-    	http::Request request(url);
-        Sleep(100);
-    	std::map<std::string, std::string> parameters = { {StringSolver::SolveCharArray(authUrlParam1), hwProfileInfo.szHwProfileGuid} };
-        Sleep(100);
-        parameters.insert({ StringSolver::SolveCharArray(authUrlParam2), std::to_string(1).c_str() });
-        Sleep(100);
-        
-        const http::Response response = request.send("POST", parameters, {
-            StringSolver::SolveCharArray(authUrlContentType)
-    		});
-
-    	std::string respStr = std::string(response.body.begin(), response.body.end()).c_str();
-
-        if (std::stol(respStr) != 696900666)
-        {
-            console.Debug(hwProfileInfo.szHwProfileGuid);
-            Sleep(500);
-            exit(-1);
-        }
-        else result1 = std::stol(respStr);
-    }
-    catch (const std::exception& e)
-    {
-    	//console.Error("Request failed, error: %s\n", e.what());
-        exit(-1);
-    }
 }
